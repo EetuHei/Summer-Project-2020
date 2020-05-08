@@ -3,7 +3,7 @@ const countChar = (str, char) => {
 };
 
 const countBs = (str) => {
-  return str.split("B").length - 1;
+  return countChar(str, "B");
 };
 
 console.log(countBs("BBC"));
