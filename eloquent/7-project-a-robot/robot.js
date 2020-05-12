@@ -165,7 +165,7 @@ const compareRobots = (robot1, memory1, robot2, memory2) => {
   // with random route in order to get better comparsion
   for (let i = 0; i < 100; i++) {
     let task = VillageState.random();
-    // call for steps to get total amount of steps from 100 runs
+    // call for getSteps to get total amount of steps from 100 runs
     steps1 += getSteps(task, robot1, memory1);
     steps2 += getSteps(task, robot2, memory2);
   }
