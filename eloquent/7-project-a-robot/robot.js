@@ -201,10 +201,10 @@ const fastRobot = ({ place, parcels }, route) => {
       }
     });
 
-    const calc = ( route, pickedUp ) => {
+    const calc = ({route, pickedUp}) => {
       return (pickedUp ? 0.5 : 0) - route.length;
     };
-    route = routes.reduce((a, b) => calc(a) > calc(b) ? a : b).route
+    route = routes.reduce((a, b) => (calc(a) > calc(b) ? a : b)).route;
   }
   return { direction: route[0], memory: route.slice(1) };
 };
