@@ -178,6 +178,44 @@ const compareRobots = (robot1, memory1, robot2, memory2) => {
 End of solution for Measuring a robot exercise
 */
 
+/* 
+Solution for robot efficiency
+*/
+
+const fastRobot = ({ place, parcels }, route) => {
+  if (route.length == 0) {
+    // map parcels array to comapre parcels.place to robot place
+    let routes = parcels.map((parcel) => {
+      if (parcel.place != place) {
+        // return place and parcel place if parcel.place in not equal to robot place
+        return {
+          route: findRoute(roadGraph, place, parcel.place),
+          pickedUp: true,
+        };
+      } else {
+        // return place and parcel address
+        return {
+          route: findRoute(roadGraph, place, parcel.address),
+          pickedUp: false,
+        };
+      }
+    });
+
+    const calc = ( route, pickedUp ) => {
+      return (pickedUp ? 0.5 : 0) - route.length;
+    };
+    route = routes.reduce((a, b) => calc(a) > calc(b) ? a : b).route
+  }
+  return { direction: route[0], memory: route.slice(1) };
+};
+
+// Seems that the robot in 100 runs isn't faster at the moment
+// will have to take a different approach to find the most efficient way to have least amount of steps
+
+/* 
+End of solution for robot effiecncy
+*/
+
 VillageState.random = function (parcelCount = 5) {
   let parcels = [];
   for (let i = 0; i < parcelCount; i++) {
@@ -193,4 +231,5 @@ VillageState.random = function (parcelCount = 5) {
 
 // runRobot(VillageState.random(), routeRobot, []);
 //runRobotAnimation(VillageState.random(), routeRobot, []);
-compareRobots(routeRobot, [], goalOrientedRobot, []);
+compareRobots(fastRobot, [], goalOrientedRobot, []);
+// runRobot(VillageState.random(), fastRobot, []);
