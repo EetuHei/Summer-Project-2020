@@ -209,9 +209,6 @@ const fastRobot = ({ place, parcels }, route) => {
   return { direction: route[0], memory: route.slice(1) };
 };
 
-// Seems that the robot in 100 runs isn't faster at the moment
-// will have to take a different approach to find the most efficient way to have least amount of steps
-
 /* 
 End of solution for robot effiecncy
 */
