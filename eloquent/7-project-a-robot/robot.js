@@ -188,12 +188,13 @@ const fastRobot = ({ place, parcels }, route) => {
     let routes = parcels.map((parcel) => {
       if (parcel.place != place) {
         // return place and parcel place if parcel.place in not equal to robot place
+        // also gives it true on pickedUp
         return {
           route: findRoute(roadGraph, place, parcel.place),
           pickedUp: true,
         };
       } else {
-        // return place and parcel address
+        // return place and parcel address, and give it false on pickedUP
         return {
           route: findRoute(roadGraph, place, parcel.address),
           pickedUp: false,
@@ -201,9 +202,13 @@ const fastRobot = ({ place, parcels }, route) => {
       }
     });
 
+    // calc to give num value based on true / false statements 
+    // that have been set earlier in the code
     const calc = ({route, pickedUp}) => {
       return (pickedUp ? 0.5 : 0) - route.length;
     };
+    // use the array reduce to count the final direction and memory
+    // based on the calc function
     route = routes.reduce((a, b) => (calc(a) > calc(b) ? a : b)).route;
   }
   return { direction: route[0], memory: route.slice(1) };
