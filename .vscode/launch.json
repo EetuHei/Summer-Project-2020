@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch API",
-      "program": "${workspaceFolder}\\eloquent\\7-project-a-robot\\robot.js"
+      "program": "${workspaceFolder}\\eloquent\\8-error-and-bugs\\the-locked-box\\lockedBox.js"
     }
   ]
 }
