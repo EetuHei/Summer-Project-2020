@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch API",
-      "program": "${workspaceFolder}\\eloquent\\8-error-and-bugs\\the-locked-box\\lockedBox.js"
+      "program": "${workspaceFolder}\\eloquent\\9-regular-expression\\numbers.js"
     }
   ]
 }
