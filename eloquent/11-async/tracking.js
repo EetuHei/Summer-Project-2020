@@ -9,11 +9,11 @@ async function locateScalpel(nest) {
   }
   
   function locateScalpel2(nest) {
-    const loop = (current) => {
+    const next = (current) => {
         return anyStorage(nest, current, "scalpel").then(value =>
-          value == current ? value : loop(value));
+          value == current ? value : next(value));
     }
-    return loop(nest.name);
+    return next(nest.name);
   }
   
   locateScalpel(bigOak).then(console.log);
