@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<p>🎈</p>
+
+<script>
+  // get tag p
+  let p = document.querySelector("p");
+  let size;
+  // define size property and set it to 25px
+  const setSize = (newSize) => {
+    size = newSize;
+    p.style.fontSize = size + "px";
+  };
+  setSize(25);
+
+  // handle key press events
+  const handleKey = (event) => {
+    // up arrow increses size by 10% / each perss and once the size value is over 70, the 🎈 is replaced with 💥
+    if (event.key == "ArrowUp") {
+      if (size > 70) {
+        p.textContent = "💥";
+        // once this happens we remove the event listener, so the user cannot increse/decrese the size of 💥
+        document.body.removeEventListener("keydown", handleKey);
+      } else {
+        setSize(size * 1.1);
+        event.preventDefault();
+      }
+      // pressing down arrow just makes the 🎈 10% smaller / each press
+    } else if (event.key == "ArrowDown") {
+      setSize(size * 0.9);
+      event.preventDefault();
+    }
+  };
+  document.body.addEventListener("keydown", handleKey);
+</script>
