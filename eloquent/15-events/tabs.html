@@ -1,0 +1,43 @@
+<tab-panel>
+  <div data-tabname="one">Tab one</div>
+  <div data-tabname="two">Tab two</div>
+  <div data-tabname="three">Tab three</div>
+</tab-panel>
+<script>
+  function asTabs(node) {
+    let tabs = [];
+    // loop for child nodes
+    for (let i = 0; i < node.childNodes.length; i++) {
+      let child = node.childNodes[i];
+      // check for node type before pushing it to array
+      child.nodeType == document.ELEMENT_NODE ? tabs.push(child) : "";
+    }
+    console.log(tabs, "Tabs: array data");
+    // loop to create button for each tab and get text value for it from attribute
+    let tabList = document.createElement("div");
+    tabs.forEach(function (tab, i) {
+      let button = document.createElement("button");
+      button.textContent = tab.getAttribute("data-tabname");
+      // add event listener for clicking the tab buttons
+      button.addEventListener("click", function () {
+        selectTab(i);
+      });
+      tabList.appendChild(button);
+    });
+    node.insertBefore(tabList, node.firstChild);
+    const selectTab = (n) => {
+      // loop with if statement to check what text should be displayed in each tab
+      tabs.forEach(function (tab, i) {
+        i == n ? (tab.style.display = "") : (tab.style.display = "none");
+      });
+      // loop to set background color for "active" button
+      for (let i = 0; i < tabList.childNodes.length; i++) {
+        i == n
+          ? (tabList.childNodes[i].style.color = "violet")
+          : (tabList.childNodes[i].style.color = "");
+      }
+    };
+    selectTab(0);
+  }
+  asTabs(document.querySelector("tab-panel"));
+</script>
