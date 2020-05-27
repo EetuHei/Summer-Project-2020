@@ -27,7 +27,8 @@
         };
         // add event listener for esc key
         window.addEventListener("keydown", handleEsc);
-
+        // define tracked keys
+        let arrowKeys = trackKeys(["ArrowLeft", "ArrowRight", "ArrowUp"]);
         // this gets called from handleEsc and will check the state of running
         // if its "pausing" it will change running to "no" and return false so we can stop the animation
         const frame = (time) => {
@@ -45,7 +46,10 @@
           } else {
             display.clear();
             resolve(state.status);
+            //remove esc key event
             window.removeEventListener("keydown", handleEsc);
+            // call for the unregister to remove the even listener
+            arrowKeys.unregister();
             return false;
           }
         };
@@ -53,9 +57,24 @@
         runAnimation(frame);
       });
 
-      // provide a way to unregister its handlers
-
-
+      // boilerplate code from the book
+      function trackKeys(keys) {
+        let down = Object.create(null);
+        function track(event) {
+          if (keys.includes(event.key)) {
+            down[event.key] = event.type == "keydown";
+            event.preventDefault();
+          }
+        }
+        window.addEventListener("keydown", track);
+        window.addEventListener("keyup", track);
+        // added this to unregister keys with remove event listener
+        down.unregister = () => {
+          window.removeEventListener("keydown", track);
+          window.removeEventListener("keyup", track);
+        };
+        return down;
+      }
     }
 
     runGame(GAME_LEVELS, DOMDisplay);
