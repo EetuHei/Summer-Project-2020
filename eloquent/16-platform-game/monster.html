@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="css/game.css" />
+<style>
+  .monster {
+    background: purple;
+  }
+</style>
+
+<body>
+  <script>
+    // Complete the constructor, update, and collide methods
+    class Monster {
+      constructor(pos, speed, chase) {
+        this.pos = pos;
+        this.speed = speed;
+        this.chase = chase;
+      }
+
+      get type() {
+        return "monster";
+      }
+
+      static create(pos) {
+        // make new Monster that chases player (pos: , speed: , chase: )
+        return new Monster(pos.plus(new Vec(0, -1)), new Vec(3, 0), true);
+      }
+
+      update(time, state) {
+        let player = state.player;
+        let newPos;
+        if (this.chase) {
+          // check which direction moster is moving and give it a speed value
+          player.pos.x < this.pos.x
+            ? // moster moving left
+              (this.speed = new Vec(-3, 0))
+            : // moster moving right
+              (this.speed = new Vec(3, 0));
+        }
+        // calculates the new position when moster is moving
+        newPos = this.pos.plus(this.speed.times(time));
+        // prevents moster from going through walls
+        if (!state.level.touches(newPos, this.size, "wall")) {
+          return new Monster(newPos, this.speed, this.chase);
+        } else {
+          return new Monster(this.pos, this.speed.times(-1), this.chase);
+        }
+      }
+
+      collide(state) {
+        let player = state.player;
+        let monster = this;
+        // check if player bottom is close to moster top
+        // if it is, moster will vanish (die)
+        if (monster.pos.y - player.pos.y > 1) {
+          let filtered = state.actors.filter((a) => a != this);
+          return new State(state.level, filtered, state.status);
+        } else {
+          // if player hits the side of the moster the game is lost
+          return new State(state.level, state.actors, "lost");
+        }
+      }
+    }
+
+    Monster.prototype.size = new Vec(1.2, 2);
+
+    levelChars["M"] = Monster;
+
+    runLevel(
+      new Level(`
+..................................
+.################################.
+.#..............................#.
+.#..............................#.
+.#..............................#.
+.#...........................o..#.
+.#..@...........................#.
+.##########..............########.
+..........#..o..o..o..o..#........
+..........#...........M..#........
+..........################........
+..................................
+`),
+      DOMDisplay
+    );
+  </script>
+</body>
