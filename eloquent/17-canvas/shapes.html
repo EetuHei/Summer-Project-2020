@@ -1,0 +1,34 @@
+<canvas width="600" height="200"></canvas>
+<script>
+  let cx = document.querySelector("canvas").getContext("2d");
+
+  const trapezoid = (x, y) => {
+  	cx.beginPath();
+    cx.moveTo(x, y);
+    cx.lineTo(x + 50, y);
+    cx.lineTo(x + 70, y + 50);
+    cx.lineTo(x - 20, y + 50);
+    cx.closePath();
+    cx.stroke();
+  }
+  trapezoid(30, 30);
+  
+  const diamond = (x, y) => {
+	cx.translate(x + 30, y + 30);
+    cx.rotate(Math.PI /4);
+    cx.fillStyle = "red";
+    cx.fillRect(-30, -30, 55, 55);
+    cx.resetTrasform();
+  }
+  diamond(150, 30);
+  
+  const zigzag = (x, y) => {
+  	
+  }
+  const spiral = (x, y) => {
+  	
+  }
+  const star = (x, y) => {
+  	
+  }
+</script>
