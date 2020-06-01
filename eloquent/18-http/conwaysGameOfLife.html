@@ -1,0 +1,48 @@
+<div id="grid"></div>
+<button id="next">Next generation</button>
+
+<script>
+  const grid = document.querySelector("#grid");
+  const next = document.querySelector("#next");
+
+  // checkboxes, grid size
+  let checkBoxes = [],
+    row = 15,
+    column = 15;
+
+  // loop to select random checkboxes when the program runs
+  for (let i = 0; i < row; i++) {
+    checkBoxes[i] = [];
+    for (let j = 0; j < column; j++) {
+      let number = Math.random();
+      checkBoxes[i].push(number > 0.5 ? true : false);
+    }
+  }
+
+  // generate grid with random checkboxes selected
+  const makeGrid = () => {
+      // container for rows
+    let rowContainer = document.createElement("div");
+    // div for each row
+    checkBoxes.forEach(function (row, i) {
+      let rowDiv = document.createElement("div");
+      // fill row with checkboxes
+      row.forEach(function (cell, j) {
+        let input = document.createElement("input");
+        input.type = "checkbox";
+        if (cell == 1) input.checked = true;
+        input.addEventListener("click", function (e) {
+          checkBoxes[i][j] = e.target.checked;
+        });
+        rowDiv.appendChild(input);
+      });
+      rowContainer.appendChild(rowDiv);
+    });
+    grid.firstChild ? grid.replaceChild(rowContainer, grid.firstChild) : grid.appendChild(rowContainer);
+  };
+  
+  const inspectGrid = () => {
+      // logic to handle cells, depending how many alive or dead cells there is next to each other
+  }
+  makeGrid();
+</script>
