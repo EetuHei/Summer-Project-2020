@@ -21,7 +21,7 @@
 
   // generate grid with random checkboxes selected
   const makeGrid = () => {
-      // container for rows
+    // container for rows
     let rowContainer = document.createElement("div");
     // div for each row
     checkBoxes.forEach(function (row, i) {
@@ -38,11 +38,38 @@
       });
       rowContainer.appendChild(rowDiv);
     });
-    grid.firstChild ? grid.replaceChild(rowContainer, grid.firstChild) : grid.appendChild(rowContainer);
+    grid.firstChild
+      ? grid.replaceChild(rowContainer, grid.firstChild)
+      : grid.appendChild(rowContainer);
   };
-  
+
   const inspectGrid = () => {
-      // logic to handle cells, depending how many alive or dead cells there is next to each other
-  }
+    // map data so we can make the if staements to check what will happen to cells
+    checkBoxes = checkBoxes.map(function (row, i) {
+      return row.map(function (cell, j) {
+        // function call to countLives
+        let live = countLives(i, j);
+        // logic to handle the cells in the grid
+        if (cell == false && live == 3) return true;
+        if (cell && (live == 2 || live == 3)) return true;
+        return false;
+      });
+    });
+  };
   makeGrid();
+
+  // TODO!
+
+  const isValid = (i, j) => {
+    // validation for new i & new j
+    // return false if validations is not ok
+    // return true if validation passes
+  };
+
+  const countLives = (i, j) => {
+    // count live cells
+    // values [-1, 0, 1]
+    // loop values and add validation before adding to count
+    // return count so it can be used in the inspectGrid function
+  };
 </script>
