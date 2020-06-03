@@ -1,5 +1,6 @@
 <div id="grid"></div>
 <button id="next">Next generation</button>
+<button id="run">Auto run</button>
 
 <script>
   const grid = document.querySelector("#grid");
@@ -8,7 +9,7 @@
   // checkboxes, grid size
   let checkBoxes = [],
     row = 15,
-    column = 15;
+    column = 30;
 
   // loop to select random checkboxes when the program runs
   for (let i = 0; i < row; i++) {
@@ -28,8 +29,10 @@
       let rowDiv = document.createElement("div");
       // fill row with checkboxes
       row.forEach(function (cell, j) {
+        // make the checkbox element
         let input = document.createElement("input");
         input.type = "checkbox";
+        // give it value of true if it is checked
         if (cell == 1) input.checked = true;
         input.addEventListener("click", function (e) {
           checkBoxes[i][j] = e.target.checked;
@@ -38,6 +41,9 @@
       });
       rowContainer.appendChild(rowDiv);
     });
+    // check the first child
+    // call replace child to replace values in the grid
+    // or call for append child to add values
     grid.firstChild
       ? grid.replaceChild(rowContainer, grid.firstChild)
       : grid.appendChild(rowContainer);
@@ -47,7 +53,7 @@
     // map data so we can make the if staements to check what will happen to cells
     checkBoxes = checkBoxes.map(function (row, i) {
       return row.map(function (cell, j) {
-        // function call to countLives
+        // function call to count live cells
         let live = countLives(i, j);
         // logic to handle the cells in the grid
         if (cell == false && live == 3) return true;
@@ -58,18 +64,48 @@
   };
   makeGrid();
 
-  // TODO!
-
-  const isValid = (i, j) => {
-    // validation for new i & new j
-    // return false if validations is not ok
-    // return true if validation passes
+  // validation for new i and new j
+  const isValid = (newI, newJ) => {
+    if (
+      newI < 0 ||
+      newJ < 0 ||
+      newI >= checkBoxes.length ||
+      newJ >= checkBoxes[newI].length
+    )
+      return false;
+    return true;
   };
 
+  // count live cells in whole grid
   const countLives = (i, j) => {
-    // count live cells
-    // values [-1, 0, 1]
-    // loop values and add validation before adding to count
-    // return count so it can be used in the inspectGrid function
+    let count = 0;
+    let values = [-1, 0, 1];
+    // loop values twice so we can use that for new i and new j
+    values.forEach(function (value1) {
+      values.forEach(function (value2) {
+        if (value1 == 0 && value2 == 0) return;
+        // assign new i and new j
+        let newI = i + value1,
+          newJ = j + value2;
+        // call for validation before adding count
+        if (isValid(newI, newJ) && checkBoxes[newI][newJ]) count++;
+      });
+    });
+    return count;
   };
+
+  next.addEventListener("click", function () {
+    inspectGrid();
+    makeGrid();
+  });
+
+  let running = null;
+  document.querySelector("#run").addEventListener("click", () => {
+    if (running) {
+      clearInterval(running);
+      running = null;
+    } else {
+      running = setInterval(turn, 300);
+    }
+  });
 </script>
