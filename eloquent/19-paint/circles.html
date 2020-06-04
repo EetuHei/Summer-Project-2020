@@ -1,0 +1,42 @@
+<div></div>
+<script>
+  function circle(pos, state, dispatch) {
+    function drawCircle(to) {
+      // radius for the circle
+      let rad = Math.sqrt(
+        Math.pow(to.x - pos.x, 2) + Math.pow(to.y - pos.y, 2)
+      );
+      // round up the number to the next largest integer
+      let radC = Math.ceil(rad);
+      let drawn = [];
+      // basic loop to create the cicrle
+      for (let dy = -radC; dy <= radC; dy++) {
+        for (let dx = -radC; dx <= radC; dx++) {
+          // distance from the start of drawing
+          let dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+          if (dist > rad) continue;
+          let y = pos.y + dy,
+            x = pos.x + dx;
+            // check status of y, x to continue
+          if (
+            y < 0 ||
+            y >= state.picture.height ||
+            x < 0 ||
+            x >= state.picture.width
+          )
+            continue;
+            // push data in to the array 
+          drawn.push({ x, y, color: state.color });
+        }
+      }
+      dispatch({ picture: state.picture.draw(drawn) });
+    }
+    drawCircle(pos);
+    return drawCircle;
+  }
+
+  let dom = startPixelEditor({
+    tools: Object.assign({}, baseTools, { circle }),
+  });
+  document.querySelector("div").appendChild(dom);
+</script>
