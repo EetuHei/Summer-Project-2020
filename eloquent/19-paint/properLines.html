@@ -42,7 +42,12 @@
     return drawPixel;
   }
 
-  function line(pos, state, dispatch) {}
+  function line(pos, state, dispatch) {
+    return (end) => {
+      let line = drawLine(pos, end, state.color);
+      dispatch({ picture: state.picture.draw(line) });
+    };
+  }
 
   let dom = startPixelEditor({
     tools: { draw, line, fill, rectangle, pick },
