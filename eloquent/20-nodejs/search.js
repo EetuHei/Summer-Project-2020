@@ -29,7 +29,7 @@ function fromDir(filter) {
 
 // call for function, take argument from command line
 // default argument to empty string if user dosn't provide argument (this way it will list all files in directory)
-// else take user argument and find files based on that
+// else take user argument from command line and find files based on that
 if (process.argv[2] == undefined) {
   fromDir("");
   console.log(
