@@ -4,14 +4,22 @@ const morgan = require("morgan");
 const fs = require("fs");
 const app = express();
 const port = 8080;
+const files = "./public";
+const cors = require("cors");
 
 app.use([
   express.urlencoded({ extended: true }),
   express.json(),
   morgan("tiny"),
+  cors(),
 ]);
 
-app.use(express.static(__dirname + "/public/"));
+app.use(express.static(__dirname));
+
+app.get("/", (res, req) => {
+  res.send(files);
+  console.log(`${files} were send`);
+});
 
 app.use((err, req, res, next) => {
   console.error(err);
