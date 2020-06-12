@@ -32,13 +32,16 @@ loadSelect();
 select.addEventListener("change", (e) => {
   if (select.value) {
     filename.value = select.value;
-    fetch(`${root}/${select.value}`)
+    fetch(`${root}/${select.value}`, {
+      "Content-type": "text/html; charset=UTF-8",
+    })
       .then((res) => {
         if (res.status !== 200) console.log(`Error ${res.status}`);
         else return res.text();
       })
-      .then((t) => {
-        text.innerHTML = t;
+      .then((file) => {
+        console.log(file);
+        readTextFile(select.value);
       });
   } else {
     filename.value = "";
@@ -46,4 +49,16 @@ select.addEventListener("change", (e) => {
   }
 });
 
-
+function readTextFile(file) {
+  let rawFile = new XMLHttpRequest();
+  rawFile.open("GET", file, false);
+  rawFile.onreadystatechange = function () {
+    if (rawFile.readyState === 4) {
+      if (rawFile.status === 200 || rawFile.status == 0) {
+        let allText = rawFile.responseText;
+        text.innerHTML = allText;
+      }
+    }
+  };
+  rawFile.send(null);
+}
