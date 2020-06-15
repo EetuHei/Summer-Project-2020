@@ -67,7 +67,7 @@ methods.GET = async function (request) {
 const { rmdir, unlink } = require("fs").promises;
 
 methods.DELETE = async function (request) {
-  let path = __dirname;
+  let path = __dirname + "/" + request.url;
   let stats;
   try {
     stats = await stat(path);
@@ -92,7 +92,8 @@ function pipeStream(from, to) {
 }
 
 methods.PUT = async function (request) {
-  let path = __dirname;
+  console.log(request, "request");
+  let path = __dirname + "/" + request.url;
   await pipeStream(request, createWriteStream(path));
   return { status: 204 };
 };
@@ -101,7 +102,7 @@ const { mkdir } = require("fs").promises;
 const { existsSync } = require("fs");
 
 methods.MKCOL = async function (request) {
-  let path = __dirname;
+  let path = __dirname + "/" + request.url;
   if (existsSync(path)) return { status: 409, body: `${path} already exists.` };
 
   try {
