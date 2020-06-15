@@ -62,3 +62,29 @@ function readTextFile(file) {
   };
   rawFile.send(null);
 }
+
+save.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (filename.value) {
+    fetch(`${root}/${filename.value}`, {
+      method: "PUT",
+      body: text.value,
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    }).then(loadSelect);
+  } else console.error("missing filename");
+});
+
+del.addEventListener("click", (e) => {
+  if (filename.value) {
+    fetch(`${root}/${filename.value}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    }).then(loadSelect);
+    filename.value = "";
+    text.innerHTML = "";
+  } else console.error("missing filename");
+});
