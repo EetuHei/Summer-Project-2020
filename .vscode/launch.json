@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch API",
-      "program": "${workspaceFolder}\\eloquent\\20-nodejs\\server\\server.js"
+      "program": "${workspaceFolder}\\eloquent\\21-skill-sharing\\skillsharing\\skillsharing_server.js"
     }
   ]
 }

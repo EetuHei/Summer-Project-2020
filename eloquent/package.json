@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "ecstatic": "^4.1.4",
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
     "morgan": "^1.10.0"
