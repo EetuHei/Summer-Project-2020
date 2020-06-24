@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import CourseContents from "./components/2.1-2.5/components/Course/index";
+import Phonebook from "./components/2.6-2.10/index";
 
 const App = () => {
+
   return (
     <>
-      <CourseContents />
+      {/* <CourseContents /> */}
+      <Phonebook  />
     </>
   );
 };
