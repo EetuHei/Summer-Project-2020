@@ -1,6 +1,7 @@
 import React from "react";
 import Course from "./Content/Course";
 
+
 const CourseContents = () => {
   const courses = [
     {

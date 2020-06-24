@@ -11,7 +11,6 @@ const App = () => {
       {/* <Basics /> */}
       {/* <Unicafe /> */}
       {/* <Anecdotes /> */}
-      <CourseContents />
     </>
   );
 };
