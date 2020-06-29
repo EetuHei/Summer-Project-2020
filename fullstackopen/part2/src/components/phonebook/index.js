@@ -3,6 +3,8 @@ import Filter from "./components/Filter";
 import Form from "./components/Form";
 import Persons from "./components/Persons";
 import Services from "./services/Index";
+import Notification from "./components/Notification";
+import Style from "./index.module.css";
 
 const Phonebook = () => {
   const [persons, setPersons] = useState("");
@@ -10,6 +12,8 @@ const Phonebook = () => {
   const [number, setNumber] = useState();
   const [filter, setFilter] = useState("");
   const [reFetch, setReFetch] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     Services.GetAll().then((res) => setPersons(res));
@@ -39,33 +43,58 @@ const Phonebook = () => {
           `${newName} is already added to phonebook, replace the old number with a new one ?`
         )
       ) {
-        let findPerson = persons.find((person) => person.name === newName);
+        let findPerson = newPersons.find((person) => person.name === newName);
         Services.Update(findPerson.id, { name: newName, number: number });
+        setMessage(`Updated phone number for person ${newName}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
         setReFetch(true);
-      } else {
       }
     } else {
       setPersons(
         persons.concat(Services.Create({ name: newName, number: number }))
       );
+      setMessage(`${newName} was added to phobebook`);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
       setReFetch(true);
     }
   };
 
   const handleDelete = (id) => {
-    let findPerson = persons.find((person) => person.id === id);
+    let findPerson = newPersons.find((person) => person.id === id);
 
     if (window.confirm(`Delete ${findPerson.name} ?`)) {
-      Services.Delete(id);
+      Services.Delete(id).catch((e) => {
+        if (e) {
+          setErrorMessage(
+            `${findPerson.name} data has already been deleted from the server `
+          );
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
+          throw e;
+        }
+      });
       setReFetch(true);
     } else {
-      alert(`${findPerson.name} has not been deleted.`);
+      setErrorMessage(`${findPerson.name} was not deleted from phonebook`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     }
   };
 
   return (
     <>
       <h2>Phonebook</h2>
+      <Notification
+        message={message}
+        errorMessage={errorMessage}
+        style={Style}
+      />
       <Filter filter={filter} handleChange={handleFilterChange} />
       <h3>add a new</h3>
       <Form
