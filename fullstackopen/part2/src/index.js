@@ -9,8 +9,8 @@ const App = () => {
   return (
     <>
       {/* <CourseContents /> */}
-      {/* <Phonebook  /> */}
-      <Countries />
+      <Phonebook  />
+      {/* <Countries /> */}
     </>
   );
 };
