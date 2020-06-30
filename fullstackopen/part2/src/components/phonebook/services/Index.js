@@ -9,13 +9,11 @@ const GetAll = async () => {
 
 const Create = async (newObject) => {
   const request = await axios.post(`${baseUrl}/add`, newObject);
-
   return request.data;
 };
 
 const Update = async (id, newObject) => {
   const request = await axios.put(`${baseUrl}/${id}`, newObject);
-  console.log(request.data, "data in client update")
   return request.data;
 };
 
