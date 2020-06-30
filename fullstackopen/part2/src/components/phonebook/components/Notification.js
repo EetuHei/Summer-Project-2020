@@ -1,15 +1,12 @@
 import React from "react";
-const Notification = ({ message, errorMessage, style }) => {
-  return (
-    <>
-      {message === null ? "" : <h2 className={style.success}>{message}</h2>}
-      {errorMessage === null ? (
-        ""
-      ) : (
-        <h2 className={style.error}>{errorMessage}</h2>
-      )}
-    </>
-  );
+import Style from "../index.module.css";
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null;
+  }
+
+  return <div className={Style.error}>{message}</div>;
 };
 
 export default Notification;
