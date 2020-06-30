@@ -11,17 +11,11 @@ const Phonebook = () => {
   const [newName, setNewName] = useState("");
   const [number, setNumber] = useState();
   const [filter, setFilter] = useState("");
-  const [reFetch, setReFetch] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     Services.GetAll().then((res) => setPersons(res));
-    if (reFetch) {
-      Services.GetAll().then((res) => setPersons(res));
-      setReFetch(false);
-    }
-  }, [reFetch]);
+  }, []);
   console.log("render", persons.length, "notes");
 
   const handleNameChange = (e) => setNewName(e.target.value);
@@ -34,8 +28,19 @@ const Phonebook = () => {
       person.name.toLowerCase().includes(filter.toLowerCase())
     );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const personObj = {
+      name: newName,
+      number: number,
+      id: persons.length + 1,
+    };
+
+    Services.Create(personObj).then((returenedPerson) => {
+      setPersons(returenedPerson);
+      setNewName("");
+    });
 
     if (persons.map((person) => person.name).includes(newName)) {
       if (
@@ -43,44 +48,42 @@ const Phonebook = () => {
           `${newName} is already added to phonebook, replace the old number with a new one ?`
         )
       ) {
-        let findPerson = newPersons.find((person) => person.name === newName);
-        Services.Update(findPerson.id, { name: newName, number: number });
-        setMessage(`Updated phone number for person ${newName}`);
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-        setReFetch(true);
+        let findPerson = persons.find((person) => person.name === newName);
+        Services.Update(findPerson.id, {
+          name: newName,
+          number: number,
+        }).then((res) => setPersons(res));
+        setNewName("");
+        setNumber("");
       }
     } else {
-      setPersons(
-        persons.concat(Services.Create({ name: newName, number: number }))
-      );
-      setMessage(`${newName} was added to phobebook`);
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
-      setReFetch(true);
+      Services.Create(personObj).then((returenedPerson) => {
+        setPersons(returenedPerson);
+        setNewName("");
+        setNumber("");
+      });
     }
   };
 
-  const handleDelete = (id) => {
-    let findPerson = newPersons.find((person) => person.id === id);
-
-    if (window.confirm(`Delete ${findPerson.name} ?`)) {
-      Services.Delete(id).catch((e) => {
-        if (e) {
-          setErrorMessage(
-            `${findPerson.name} data has already been deleted from the server `
-          );
-          setTimeout(() => {
-            setErrorMessage(null);
-          }, 5000);
-          throw e;
-        }
-      });
-      setReFetch(true);
+  const handleDelete = (person) => {
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      Services.Delete(person.id)
+        .then((res) => console.log("delted", person.name))
+        .catch((e) => {
+          if (e) {
+            setErrorMessage(
+              `${person.name} data has already been deleted from the server `
+            );
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
+            throw e;
+          }
+        });
+      const updatePersons = persons.filter((p) => p.id !== person.id);
+      setPersons(updatePersons);
     } else {
-      setErrorMessage(`${findPerson.name} was not deleted from phonebook`);
+      setErrorMessage(`${person.name} was not deleted from phonebook`);
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
@@ -90,11 +93,7 @@ const Phonebook = () => {
   return (
     <>
       <h2>Phonebook</h2>
-      <Notification
-        message={message}
-        errorMessage={errorMessage}
-        style={Style}
-      />
+      <Notification message={errorMessage} style={Style} />
       <Filter filter={filter} handleChange={handleFilterChange} />
       <h3>add a new</h3>
       <Form
