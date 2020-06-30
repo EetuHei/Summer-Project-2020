@@ -68,7 +68,7 @@ const Phonebook = () => {
   const handleDelete = (person) => {
     if (window.confirm(`Delete ${person.name} ?`)) {
       Services.Delete(person.id)
-        .then((res) => console.log("delted", person.name))
+        .then((res) => console.log("Deleted", res))
         .catch((e) => {
           if (e) {
             setErrorMessage(
