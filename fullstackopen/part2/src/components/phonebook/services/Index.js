@@ -1,25 +1,32 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/persons";
+const baseUrl = "http://localhost:8080/api/v1/persons";
 
-const GetAll = () => {
-  const request = axios.get(baseUrl);
-  return request.then(res => res.data);
+const GetAll = async () => {
+  const request = await axios.get(baseUrl);
+  return request.data;
 };
 
-const Create = (newObject) => {
-  const request = axios.post(baseUrl, newObject);
-  return request.then((res) => res.data);
+const Create = async (newObject) => {
+  const request = await axios.post(`${baseUrl}/add`, newObject);
+
+  return request.data;
 };
 
-const Update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject);
-  return request.then((res) => res.data);
+const Update = async (id, newObject) => {
+  const request = await axios.put(`${baseUrl}/${id}`, newObject);
+  console.log(request.data, "data in client update")
+  return request.data;
 };
 
-const Delete = (id) => {
-  const req = axios.delete(`${baseUrl}/${id}`)
-  return req.then(res => res.data)
-}
+const Delete = async (id) => {
+  const req = await axios.delete(`${baseUrl}/delete/${id}`);
+  return req.data;
+};
 
-export default { GetAll: GetAll, Create: Create, Update: Update, Delete: Delete };
+export default {
+  GetAll: GetAll,
+  Create: Create,
+  Update: Update,
+  Delete: Delete,
+};
