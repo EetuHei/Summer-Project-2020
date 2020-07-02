@@ -34,13 +34,7 @@ const Phonebook = () => {
     const personObj = {
       name: newName,
       number: number,
-      id: persons.length + 1,
     };
-
-    Services.Create(personObj).then((returenedPerson) => {
-      setPersons(returenedPerson);
-      setNewName("");
-    });
 
     if (persons.map((person) => person.name).includes(newName)) {
       if (
@@ -58,7 +52,7 @@ const Phonebook = () => {
       }
     } else {
       Services.Create(personObj).then((returenedPerson) => {
-        setPersons(returenedPerson);
+        setPersons(newPersons.concat(returenedPerson));
         setNewName("");
         setNumber("");
       });
