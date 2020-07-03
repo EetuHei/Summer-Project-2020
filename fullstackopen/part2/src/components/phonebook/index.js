@@ -42,11 +42,12 @@ const Phonebook = () => {
           `${newName} is already added to phonebook, replace the old number with a new one ?`
         )
       ) {
-        let findPerson = persons.find((person) => person.name === newName);
-        Services.Update(findPerson.id, {
+        let updatePerson = persons.find((person) => person.name === newName);
+        updatePerson.number = number;
+        Services.Update(updatePerson.id, {
           name: newName,
           number: number,
-        }).then((res) => setPersons(res));
+        });
         setNewName("");
         setNumber("");
       }
