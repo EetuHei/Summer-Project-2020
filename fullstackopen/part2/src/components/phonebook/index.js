@@ -53,9 +53,13 @@ const Phonebook = () => {
       }
     } else {
       Services.Create(personObj).then((returenedPerson) => {
-        setPersons(newPersons.concat(returenedPerson));
-        setNewName("");
-        setNumber("");
+        if (returenedPerson.errors) {
+          setErrorMessage(returenedPerson._message);
+        } else {
+          setPersons(newPersons.concat(returenedPerson));
+          setNewName("");
+          setNumber("");
+        }
       });
     }
   };
