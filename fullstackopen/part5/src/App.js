@@ -4,10 +4,15 @@ import blogService from "./services/blogs";
 import AuthServices from "./services/auth";
 import LoginForm from "./components/auth/LoginForm";
 import LogoutForm from "./components/auth/LogoutForm";
+import BlogForm from "./components/BlogForm";
+import Alert from "./components/Alert";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(null);
+
+  console.log(message, "message value");
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -15,7 +20,8 @@ const App = () => {
 
   useEffect(() => {
     localStorage.getItem("token");
-    setUser(localStorage.getItem("userData"));
+    const user = JSON.parse(localStorage.getItem("userData"));
+    setUser(user);
   }, []);
 
   const handleLogin = async (username, password) => {
@@ -27,7 +33,19 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    setUser(null)
+    setUser(null);
+  };
+
+  const handleBlogSubmit = async (title, author, url) => {
+    const submitBlog = await blogService.addNew({ title, author, url });
+
+    if (submitBlog) {
+      setMessage({ message: submitBlog, color: "green" });
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+      setBlogs([...blogs].concat(submitBlog));
+    }
   };
 
   if (!user) {
@@ -41,7 +59,9 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Alert message={message} />
       <LogoutForm user={user} handleLogout={handleLogout} />
+      <BlogForm user={user} handleBlogSubmit={handleBlogSubmit} />
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
