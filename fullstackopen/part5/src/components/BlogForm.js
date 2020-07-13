@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const BlogForm = ({user, handleBlogSubmit}) => {
+const BlogForm = ({ user, handleBlogSubmit }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -31,7 +31,13 @@ const BlogForm = ({user, handleBlogSubmit}) => {
         <p>
           Url: <input type="text" value={url} onChange={changeUrl} />
         </p>
-        <button type="button" onClick={() => handleBlogSubmit(title, author, url)} >submit</button>
+        <button
+          type="button"
+          onClick={() => handleBlogSubmit(title, author, url)}
+        >
+          create
+        </button>
+        <div></div>
       </>
     );
   }
