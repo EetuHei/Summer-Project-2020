@@ -1,7 +1,6 @@
 import React from "react";
 
 const Alert = ({ message }) => {
-    console.log(message, "in alert")
   if (message === null) {
     return null;
   }
@@ -16,9 +15,13 @@ const Alert = ({ message }) => {
   };
   return (
     <>
-      <h3 style={alertStyle}>
-        a new blog: {message.message.title} by {message.message.author}
-      </h3>
+      {message.message.title ? (
+        <h3 style={alertStyle}>
+          a new blog: {message.message.title} by {message.message.author}
+        </h3>
+      ) : (
+        <h3 style={alertStyle}>{message.message}</h3>
+      )}
     </>
   );
 };
