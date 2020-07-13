@@ -4,11 +4,12 @@ const LogoutForm = ({ user, handleLogout }) => {
   if (user) {
     return (
       <>
-        {" "}
-        {`${user.name} logged in.`}{" "}
-        <button type="button" onClick={() => handleLogout()}>
-          Logout
-        </button>
+        <p>
+          {`${user.name} logged in.`}
+          <button type="button" onClick={() => handleLogout()}>
+            Logout
+          </button>
+        </p>
       </>
     );
   }
