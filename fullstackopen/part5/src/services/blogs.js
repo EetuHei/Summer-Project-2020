@@ -1,19 +1,22 @@
 import axios from "axios";
 const baseUrl = "/api/v1/blogs";
 const config = {
-  headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  headers: { Authorization: `Bearer ${window.localStorage.getItem("token")}` },
 };
 
 const getAll = async () => {
-  const request = axios.get(baseUrl);
-  const response = await request;
-  return response.data;
+  const res = await axios.get(baseUrl);
+  return res.data;
 };
 
 const addNew = async (data) => {
-  const req = axios.post(baseUrl, data, config);
-  const res = await req;
-  return res.data;
+  try {
+    const res = await axios.post(baseUrl, data, config);
+    return res.data;
+  } catch (e) {
+    console.error(e);
+    return e.response;
+  }
 };
 
 export default { getAll, addNew };
