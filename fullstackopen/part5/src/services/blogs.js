@@ -30,4 +30,12 @@ const updateById = async (data) => {
   }
 }
 
-export default { getAll, addNew, updateById }
+const deleteById = async (data) => {
+  try{
+    await axios.delete(`${baseUrl}/${data.id}`, config)
+  }catch(e){
+    console.error(e.response)
+  }
+}
+
+export default { getAll, addNew, updateById, deleteById }
