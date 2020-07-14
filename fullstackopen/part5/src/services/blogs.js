@@ -6,7 +6,7 @@ const config = {
 
 const getAll = async () => {
   const res = await axios.get(baseUrl)
-  console.log(res.data)
+  
   return res.data
 }
 
