@@ -3,9 +3,6 @@ import React, { useState } from 'react'
 const Blog = ({ blog }) => {
   const [details, setDetails] = useState(false)
 
-  // TODO:
-  // get username by id and add the name of the poster in detailed view of the blog (5.7)
-  // move the blogs.map from app.js to under some other component
 
   const buttonText = () => (details === true ? 'hide' : 'view')
   const allDetails = { display: details ? '' : 'none' }
@@ -33,7 +30,11 @@ const Blog = ({ blog }) => {
         <div style={allDetails} className="allDetails">
           <div>
             <a href="localhost:3000">{blog.url}</a>
-            <div>likes:{blog.likes}</div>
+            <div>
+              likes:{blog.likes}
+              <button type="button">like</button>
+              {!blog.user ? '' : <div>{blog.user.name}</div>}
+            </div>
           </div>
         </div>
       </div>
