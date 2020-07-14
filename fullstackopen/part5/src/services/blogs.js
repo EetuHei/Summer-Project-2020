@@ -6,7 +6,7 @@ const config = {
 
 const getAll = async () => {
   const res = await axios.get(baseUrl)
-  
+
   return res.data
 }
 
@@ -20,4 +20,14 @@ const addNew = async (data) => {
   }
 }
 
-export default { getAll, addNew }
+const updateById = async (data) => {
+  try {
+    const res = await axios.put(`${baseUrl}/${data.id}`, data)
+    return res.data
+  } catch (e) {
+    console.error(e.response)
+    return e.response
+  }
+}
+
+export default { getAll, addNew, updateById }
