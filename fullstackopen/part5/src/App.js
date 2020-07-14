@@ -62,6 +62,17 @@ const App = () => {
     }
   }
 
+  const handleDelete = (e, blog) => {
+    e.preventDefault()
+    const res = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
+
+    if (res) {
+      blogService.deleteById(blog)
+      const blogsAfter = blogs.filter((i) => i.id !== blog.id)
+      setBlogs(blogsAfter)
+    }
+  }
+
   const sortBlogs = (blogs) => {
     blogs.sort((a, b) => {
       return b.likes - a.likes
@@ -88,7 +99,12 @@ const App = () => {
       </Togglable>
 
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          currentUser={user}
+          handleDelete={handleDelete}
+        />
       ))}
     </div>
   )
