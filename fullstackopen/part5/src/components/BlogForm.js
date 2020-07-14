@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 const BlogForm = ({ user, handleBlogSubmit }) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   const changeTitle = (e) => {
-    setTitle(e.target.value);
-  };
+    setTitle(e.target.value)
+  }
 
   const changeAuthor = (e) => {
-    setAuthor(e.target.value);
-  };
+    setAuthor(e.target.value)
+  }
 
   const changeUrl = (e) => {
-    setUrl(e.target.value);
-  };
+    setUrl(e.target.value)
+  }
 
   if (user) {
     return (
@@ -39,8 +39,8 @@ const BlogForm = ({ user, handleBlogSubmit }) => {
         </button>
         <div></div>
       </>
-    );
+    )
   }
-};
+}
 
-export default BlogForm;
+export default BlogForm

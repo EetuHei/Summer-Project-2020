@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react'
 
 const Alert = ({ message }) => {
   if (message === null) {
-    return null;
+    return null
   }
   const alertStyle = {
     color: message.color,
-    background: "lightGrey",
-    fontSize: "26px",
-    borderStyle: "solid",
-    borderRadius: "1px",
-    padding: "10px",
-    marginBottom: "10px",
-  };
+    background: 'lightGrey',
+    fontSize: '26px',
+    borderStyle: 'solid',
+    borderRadius: '1px',
+    padding: '10px',
+    marginBottom: '10px',
+  }
   return (
     <>
       {message.message.title ? (
@@ -23,7 +23,7 @@ const Alert = ({ message }) => {
         <h3 style={alertStyle}>{message.message}</h3>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Alert;
+export default Alert
