@@ -4,7 +4,7 @@ import blogServices from '../services/blogs'
 const Blog = ({ blog }) => {
   const [details, setDetails] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
-  
+
   const buttonText = () => (details === true ? 'hide' : 'view')
   const allDetails = { display: details ? '' : 'none' }
 
