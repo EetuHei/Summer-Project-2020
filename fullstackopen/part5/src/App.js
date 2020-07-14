@@ -14,7 +14,10 @@ const App = () => {
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
+    blogService.getAll().then((blogs) => {
+      sortBlogs(blogs)
+      setBlogs(blogs)
+    })
   }, [])
 
   useEffect(() => {
@@ -57,6 +60,12 @@ const App = () => {
       }, 5000)
       setBlogs([...blogs].concat(submitBlog))
     }
+  }
+
+  const sortBlogs = (blogs) => {
+    blogs.sort((a, b) => {
+      return b.likes - a.likes
+    })
   }
 
   if (!user) {
