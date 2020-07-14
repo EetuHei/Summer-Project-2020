@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogServices from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, currentUser, handleDelete }) => {
   const [details, setDetails] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -53,6 +53,7 @@ const Blog = ({ blog }) => {
                 like
               </button>
               {!blog.user ? '' : <div>{blog.user.name}</div>}
+              {!blog.user ? '' : currentUser.name === blog.user.name ? <button type='button' onClick={(e) => handleDelete(e, blog)} >delete</button> : ''}
             </div>
           </div>
         </div>
