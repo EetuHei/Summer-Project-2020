@@ -19,26 +19,33 @@ const BlogForm = ({ user, handleBlogSubmit }) => {
 
   if (user) {
     return (
-      <>
+      <form onSubmit={(e) => handleBlogSubmit(e, title, author, url)}>
         <h2>Create new</h2>
         <p>
-          Title: <input type="text" value={title} onChange={changeTitle} />
+          Title:{' '}
+          <input type='text' id='title' value={title} onChange={changeTitle} />
         </p>
         <p>
           Author:
-          <input type="text" value={author} onChange={changeAuthor} />
+          <input
+            type='text'
+            id='author'
+            value={author}
+            onChange={changeAuthor}
+          />
         </p>
         <p>
-          Url: <input type="text" value={url} onChange={changeUrl} />
+          Url: <input type='text' id='url' value={url} onChange={changeUrl} />
         </p>
         <button
-          type="button"
-          onClick={() => handleBlogSubmit(title, author, url)}
+          id='submit'
+          type='submit'
+
         >
           create
         </button>
         <div></div>
-      </>
+      </form>
     )
   }
 }
