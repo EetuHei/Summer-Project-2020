@@ -6,7 +6,6 @@ const Blog = ({ blog, currentUser, handleDelete }) => {
   const [likes, setLikes] = useState(blog.likes)
 
   const buttonText = () => (details === true ? 'hide' : 'view')
-  const allDetails = { display: details ? '' : 'none' }
 
   const handleLike = (e) => {
     e.preventDefault()
@@ -34,30 +33,42 @@ const Blog = ({ blog, currentUser, handleDelete }) => {
   }
 
   return (
-    <div>
-      <div style={blogStyle}>
+    <div style={blogStyle}>
+      <div>
         {blog.title}, by: {blog.author}
         <button
           style={{ marginLeft: '5px' }}
-          id="view"
+          id='view'
           onClick={() => setDetails(!details)}
         >
           {buttonText()}
         </button>
-        <div style={allDetails} className="allDetails">
+      </div>
+      {details ? (
+        <div className='allDetails'>
           <div>
-            <a href="localhost:3000">{blog.url}</a>
+            <a href='localhost:3000'>{blog.url}</a>
             <div>
               likes:{likes}
-              <button type="button" onClick={(e) => handleLike(e)}>
+              <button type='button' onClick={(e) => handleLike(e)}>
                 like
               </button>
               {!blog.user ? '' : <div>{blog.user.name}</div>}
-              {!blog.user ? '' : currentUser.name === blog.user.name ? <button type='button' onClick={(e) => handleDelete(e, blog)} >delete</button> : ''}
+              {!blog.user ? (
+                ''
+              ) : currentUser.name === blog.user.name ? (
+                <button type='button' onClick={(e) => handleDelete(e, blog)}>
+                  delete
+                </button>
+              ) : (
+                ''
+              )}
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        ''
+      )}
     </div>
   )
 }
