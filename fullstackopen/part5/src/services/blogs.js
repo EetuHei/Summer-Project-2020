@@ -31,9 +31,9 @@ const updateById = async (data) => {
 }
 
 const deleteById = async (data) => {
-  try{
+  try {
     await axios.delete(`${baseUrl}/${data.id}`, config)
-  }catch(e){
+  } catch (e) {
     console.error(e.response)
   }
 }
