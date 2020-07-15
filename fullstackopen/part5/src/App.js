@@ -45,7 +45,8 @@ const App = () => {
     setUser(null)
   }
 
-  const handleBlogSubmit = async (title, author, url) => {
+  const handleBlogSubmit = async (e, title, author, url) => {
+    e.preventDefault()
     const submitBlog = await blogService.addNew({ title, author, url })
 
     if (!submitBlog || submitBlog.status === 400) {
@@ -94,7 +95,7 @@ const App = () => {
       <Alert message={message} />
       <LogoutForm user={user} handleLogout={handleLogout} />
 
-      <Togglable buttonLabel="create new blog">
+      <Togglable buttonLabel='create new blog'>
         <BlogForm user={user} handleBlogSubmit={handleBlogSubmit} />
       </Togglable>
 
