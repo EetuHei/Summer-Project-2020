@@ -17,23 +17,26 @@ const LoginForm = ({ user, handleLogin }) => {
       {!user ? (
         <>
           <input
-            type="text"
+            type='text'
+            id='username'
             value={username}
             onChange={changeUsername}
-            placeholder="Username"
+            placeholder='Username'
           />{' '}
           <input
-            type="password"
+            type='password'
+            id='password'
             value={password}
             onChange={changePassword}
-            placeholder="Password"
+            placeholder='Password'
           />{' '}
           <button
+            id='login-button'
             onClick={() => {
               handleLogin(username, password)
             }}
           >
-            Login
+            login
           </button>
         </>
       ) : (
