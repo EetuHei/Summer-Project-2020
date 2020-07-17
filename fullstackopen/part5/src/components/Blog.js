@@ -57,7 +57,7 @@ const Blog = ({ blog, currentUser, handleDelete }) => {
               {!blog.user ? (
                 ''
               ) : currentUser.name === blog.user.name ? (
-                <button type='button' onClick={(e) => handleDelete(e, blog)}>
+                <button type='button' id="deleteBtn" onClick={(e) => handleDelete(e, blog)}>
                   delete
                 </button>
               ) : (
