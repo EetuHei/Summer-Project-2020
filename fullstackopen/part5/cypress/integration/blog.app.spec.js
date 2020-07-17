@@ -72,7 +72,7 @@ describe('Blog app', () => {
     cy.get('html').should('not.contain', `${blog.title}`)
   })
 
-  it('blogs are returned arranged by likes', function () {
+  it('blogs are arranged by likes', function () {
     cy.get('#view').click()
 
     cy.get('.viewBtn').then((buttons) => {
