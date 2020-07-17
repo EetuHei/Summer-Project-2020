@@ -13,7 +13,6 @@ const getAll = async () => {
 }
 
 const addNew = async (data) => {
-  console.log(data, config)
   try {
     const res = await axios.post(baseUrl, data, config)
     return res.data
