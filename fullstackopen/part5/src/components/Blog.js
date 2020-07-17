@@ -34,11 +34,12 @@ const Blog = ({ blog, currentUser, handleDelete }) => {
 
   return (
     <div style={blogStyle}>
-      <div>
+      <div id="container">
         {blog.title}, by: {blog.author}
         <button
           style={{ marginLeft: '5px' }}
           id='view'
+          className="viewBtn"
           onClick={() => setDetails(!details)}
         >
           {buttonText()}
@@ -48,7 +49,7 @@ const Blog = ({ blog, currentUser, handleDelete }) => {
         <div className='allDetails'>
           <div>
             <a href='localhost:3000'>{blog.url}</a>
-            <div>
+            <div className="likes">
               likes:{likes}
               <button type='button' onClick={(e) => handleLike(e)}>
                 like
