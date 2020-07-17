@@ -48,12 +48,13 @@ const App = () => {
   const handleBlogSubmit = async (e, title, author, url) => {
     e.preventDefault()
     const submitBlog = await blogService.addNew({ title, author, url })
-
     if (!submitBlog || submitBlog.status === 400) {
       setMessage({ message: submitBlog.data.error, color: 'red' })
       setTimeout(() => {
         setMessage(null)
       }, 5000)
+    } else if (submitBlog.status === 500) {
+      setMessage({ message: submitBlog.data.error.message, color: 'red' })
     } else if (submitBlog) {
       setMessage({ message: submitBlog, color: 'green' })
       setTimeout(() => {
