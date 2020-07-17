@@ -1,7 +1,9 @@
 import axios from 'axios'
 const baseUrl = '/api/v1/blogs'
 const config = {
-  headers: { Authorization: `Bearer ${window.localStorage.getItem('token')}` },
+  headers: {
+    Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+  },
 }
 
 const getAll = async () => {
@@ -11,6 +13,7 @@ const getAll = async () => {
 }
 
 const addNew = async (data) => {
+  console.log(data, config)
   try {
     const res = await axios.post(baseUrl, data, config)
     return res.data
