@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import {addNew} from "../reducers/Actions"
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -7,9 +8,7 @@ const AnecdoteForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const inputValue = e.target.create.value
-    dispatch({
-      type: "ADD", data: inputValue
-    })
+    dispatch(addNew(inputValue))
   }
 
   return (

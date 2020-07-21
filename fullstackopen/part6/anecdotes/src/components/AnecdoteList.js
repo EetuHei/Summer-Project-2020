@@ -1,12 +1,13 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { setVote } from '../reducers/Actions'
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state)
   const dispatch = useDispatch()
 
   const vote = (id) => {
-    dispatch({ type: 'VOTE', data: { id: id } })
+    dispatch(setVote(id))
   }
 
   let sortedAnecdotes = [...anecdotes]
