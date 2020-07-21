@@ -39,7 +39,6 @@ const reducer = (state = initialState, action) => {
       return [...state].concat(asObject(action.data))
     default:
       return state
-
   }
 }
 

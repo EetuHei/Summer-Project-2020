@@ -6,9 +6,8 @@ const App = () => {
   return (
     <>
       <h2>Anecdotes</h2>
-      <Filter />
-      <AnecdoteList />
       <AnecdoteForm />
+      <AnecdoteList />
     </>
   )
 }
