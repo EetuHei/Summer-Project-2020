@@ -14,7 +14,6 @@ export const resetFilter = () => {
 const filterReducer = (state = '', action) => {
   switch (action.type) {
     case 'SET_FILTER':
-      console.log(action, 'action in filter')
       return action.filter
     case 'RESET_FILTER':
       return ''
