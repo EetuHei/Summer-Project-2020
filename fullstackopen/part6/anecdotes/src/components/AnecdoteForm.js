@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {addNew} from "../reducers/Actions"
+import { addNew, initNotification, resetNotification } from '../reducers/Actions'
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -9,6 +9,10 @@ const AnecdoteForm = () => {
     e.preventDefault()
     const inputValue = e.target.create.value
     dispatch(addNew(inputValue))
+    dispatch(initNotification(inputValue))
+    setTimeout(() => {
+      dispatch(resetNotification())
+    }, 5000)
   }
 
   return (
