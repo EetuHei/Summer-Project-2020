@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addNew, initNotification, resetNotification } from '../reducers/Actions'
+import {
+  addNew,
+  initNotification,
+  resetNotification,
+} from '../reducers/Actions'
+import anecdoteServices from '../services/anecdoteServices'
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const inputValue = e.target.create.value
-    dispatch(addNew(inputValue))
+    const newAnecdote = await anecdoteServices.createNew(inputValue)
+    dispatch(addNew(newAnecdote))
     dispatch(initNotification(inputValue))
     setTimeout(() => {
       dispatch(resetNotification())
