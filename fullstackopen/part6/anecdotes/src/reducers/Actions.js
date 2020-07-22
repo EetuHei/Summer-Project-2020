@@ -16,3 +16,8 @@ export const initNotification = (inputValue) => ({
 export const resetNotification = () => ({
   type: 'RESET_NOTIFICATION',
 })
+
+export const initAnecdotes = (anecdotes) => ({
+  type: 'INIT_ANECDOTES',
+  data: anecdotes
+})
