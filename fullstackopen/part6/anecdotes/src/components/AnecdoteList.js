@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   setVote,
   initNotification,
-  resetNotification,
 } from '../reducers/Actions'
 
 const AnecdoteList = () => {
