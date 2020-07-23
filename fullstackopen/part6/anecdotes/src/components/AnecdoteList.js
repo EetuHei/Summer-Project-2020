@@ -12,12 +12,9 @@ const AnecdoteList = () => {
   const dispatch = useDispatch()
 
   const vote = (id) => {
-    dispatch(setVote(id))
     const findAnecdote = anecdotes.find((a) => a.id === id)
-    dispatch(initNotification(findAnecdote))
-    setTimeout(() => {
-      dispatch(resetNotification())
-    }, 5000)
+    dispatch(setVote(findAnecdote))
+    dispatch(initNotification(`you voted '${findAnecdote.content}'`, 5))
   }
 
   let sortedAnecdotes = [...anecdotes]
