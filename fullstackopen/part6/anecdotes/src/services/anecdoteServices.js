@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {asObject} from '../reducers/anecdoteReducer'
+import { asObject } from '../reducers/anecdoteReducer'
 
 const baseUrl = 'http://localhost:8080/anecdotes'
 
@@ -14,4 +14,9 @@ const createNew = async (data) => {
   return res.data
 }
 
-export default { getAll, createNew }
+const updateById = async (dataObj) => {
+  const res = await axios.put(`${baseUrl}/${dataObj.id}`, dataObj)
+  return res.data
+}
+
+export default { getAll, createNew, updateById }
