@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { filterChange } from '../reducers/filterReducer'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { filterChange } from '../reducers/Actions'
 
 const Filter = () => {
   const dispatch = useDispatch()
@@ -10,7 +10,7 @@ const Filter = () => {
   }
 
   const style = {
-    marginBottom: 10
+    marginBottom: 10,
   }
 
   return (
