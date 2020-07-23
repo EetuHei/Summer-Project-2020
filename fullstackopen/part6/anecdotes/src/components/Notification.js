@@ -10,11 +10,7 @@ const Notification = () => {
   }
 
   if (!notification) return <div></div>
-
-  if (notification.content)
-    return <div style={style}>you voted '{notification.content}'</div>
-
-  if (notification) return <div style={style}>'{notification}' was added</div>
+  if (notification) return <div style={style}>{notification}</div>
 }
 
 export default Notification
