@@ -34,13 +34,15 @@ export const setVote = (dataObj) => {
 }
 
 // show notification & reset notification
+let timer
 export const initNotification = (message, time) => {
   return async (dispatch) => {
-   await dispatch({
+    await dispatch({
       type: 'SET_NOTIFICATION',
       data: message,
     })
-    setTimeout(() => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
       dispatch({
         type: 'RESET_NOTIFICATION',
       })
