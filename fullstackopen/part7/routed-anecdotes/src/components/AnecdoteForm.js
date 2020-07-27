@@ -3,9 +3,9 @@ import { Redirect } from 'react-router-dom'
 import { useField } from '../hooks'
 
 const CreateNew = (props) => {
-  const content = useField('text')
-  const author = useField('text')
-  const info = useField('text')
+  const { reset: resetContent, ...content } = useField('text')
+  const { reset: resetAuthor, ...author } = useField('text')
+  const { reset: resetInfo, ...info } = useField('text')
 
   const [redirect, setRedirect] = useState(false)
 
@@ -18,6 +18,12 @@ const CreateNew = (props) => {
       info: info.value,
       votes: 0,
     })
+  }
+
+  const resetFields = () => {
+    resetContent()
+    resetAuthor()
+    resetInfo()
   }
 
   if (redirect) return <Redirect to='/' />
@@ -39,6 +45,9 @@ const CreateNew = (props) => {
           <input {...info} />
         </div>
         <button>create</button>
+        <button type='button' onClick={() => resetFields()}>
+          reset
+        </button>
       </form>
     </div>
   )
