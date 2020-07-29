@@ -1,16 +1,21 @@
 const initialState = {
-  message: '',
+  message: null,
+  color: '',
+  title: '',
+  author: '',
 }
 
 const alertReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_NOTIFICATION':
-      return { ...state, message: action.data }
+    case 'SET_ALERT':
+      return { ...state, message: action.data, color: action.color }
 
-    case 'RESET_NOTIFICATION':
+    case 'RESET_ALERT':
       return initialState
 
     default:
       return state
   }
 }
+
+export default alertReducer
