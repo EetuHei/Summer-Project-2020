@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import AuthServices from './services/auth'
 import LoginForm from './components/auth/LoginForm'
 import LogoutForm from './components/auth/LogoutForm'
 import BlogForm from './components/BlogForm'
 import Alert from './components/Alert'
 import Togglable from './components/Togglable'
 import { connect } from 'react-redux'
-import { loginUser, logoutUser, setAlert } from './reducers/Actions'
+import { loginUser, logoutUser, setAlert, initBlogs } from './reducers/Actions'
 import { useSelector } from 'react-redux'
 
 const App = (props) => {
   const user = useSelector((state) => state.login)
+  const blogs = useSelector((state) => state.blogs)
 
-  const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      sortBlogs(blogs)
-      setBlogs(blogs)
-    })
-  }, [])
+    const fetchData = async () => {
+      await props.initBlogs()
+    }
+    fetchData()
+  }, [props])
 
   if (user) {
     window.localStorage.setItem('token', user.token)
@@ -43,22 +42,18 @@ const App = (props) => {
     props.logoutUser()
   }
 
+  // make action to add blogs and tie it to reducers
+
   const handleBlogSubmit = async (e, title, author, url) => {
     e.preventDefault()
     const submitBlog = await blogService.addNew({ title, author, url })
     if (!submitBlog || submitBlog.status === 400) {
-      setMessage({ message: submitBlog.data.error, color: 'red' })
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      props.setAlert(submitBlog.data.error, 5, 'red')
     } else if (submitBlog.status === 500) {
-      setMessage({ message: submitBlog.data.error.message, color: 'red' })
+      props.setAlert(submitBlog.data.error.message, 5, 'red')
     } else if (submitBlog) {
-      setMessage({ message: submitBlog, color: 'green' })
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-      setBlogs([...blogs].concat(submitBlog))
+      props.setAlert(submitBlog, 5, 'green')
+      //add action call to handle adding of new blog
     }
   }
 
@@ -69,7 +64,7 @@ const App = (props) => {
     if (res) {
       blogService.deleteById(blog)
       const blogsAfter = blogs.filter((i) => i.id !== blog.id)
-      setBlogs(blogsAfter)
+      // add action call to handle blog delete
     }
   }
 
@@ -79,11 +74,13 @@ const App = (props) => {
     })
   }
 
+  sortBlogs(blogs)
+
   if (!user) {
     return (
       <div>
         <h2>Login in to application</h2>
-        <Alert message={message} />
+        <Alert />
         <LoginForm user={user} handleLogin={handleLogin} />
       </div>
     )
@@ -92,7 +89,7 @@ const App = (props) => {
   return (
     <div>
       <h2>blogs</h2>
-      <Alert message={message} />
+      <Alert />
       <LogoutForm user={user} handleLogout={handleLogout} />
 
       <Togglable buttonLabel='create new blog'>
@@ -115,6 +112,7 @@ const mapDispatchToProps = {
   loginUser,
   logoutUser,
   setAlert,
+  initBlogs,
 }
 
 export default connect(null, mapDispatchToProps)(App)
