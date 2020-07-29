@@ -11,12 +11,12 @@ export const loginUser = (username, password) => {
         type: 'LOGIN',
         data: user,
       })
-      return user
     }
   }
 }
 
 export const logoutUser = () => {
+  window.localStorage.clear()
   return {
     type: 'LOGOUT',
   }
