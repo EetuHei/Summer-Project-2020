@@ -3,14 +3,14 @@ import AuthServices from '../services/auth'
 export const loginUser = (username, password) => {
   return async (dispatch) => {
     const user = await AuthServices.login({ username, password })
-
     if (user.data && user.data.error) {
-      return user.data
+      return user
     } else {
-      dispatch({
+      await dispatch({
         type: 'LOGIN',
         data: user,
       })
+      return user
     }
   }
 }
@@ -18,5 +18,22 @@ export const loginUser = (username, password) => {
 export const logoutUser = () => {
   return {
     type: 'LOGOUT',
+  }
+}
+
+let timer
+export const setAlert = (message, time, color) => {
+  return async (dispatch) => {
+    await dispatch({
+      type: 'SET_ALERT',
+      data: message,
+      color,
+    })
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      dispatch({
+        type: 'RESET_ALERT',
+      })
+    }, time * 1000)
   }
 }
