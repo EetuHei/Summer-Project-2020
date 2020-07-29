@@ -16,9 +16,9 @@ const Alert = (props) => {
   }
   return (
     <>
-      {props.message.title ? (
+      {props.message.message.title ? (
         <h3 style={alertStyle}>
-          a new blog: {props.message.title} by {props.message.author}
+          a new blog: {props.message.message.title} by {props.message.message.author}
         </h3>
       ) : (
         <h3 style={alertStyle}>{props.message.message}</h3>
