@@ -1,4 +1,4 @@
-const config = window.localStorage.getItem('token')
+const config = JSON.parse(window.localStorage.getItem('userData'))
 
 const initialState = config ? config : null
 
