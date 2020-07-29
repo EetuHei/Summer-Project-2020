@@ -1,43 +1,39 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { loginUser, setAlert } from '../../reducers/Actions'
+import { useField } from '../hooks/useField'
 
-const LoginForm = ({ user, handleLogin }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+const LoginForm = (props) => {
+  const username = useField('text')
+  const password = useField('password')
 
-  const changeUsername = (e) => {
-    setUsername(e.target.value)
-  }
-
-  const changePassword = (e) => {
-    setPassword(e.target.value)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const res = await props.loginUser(username.value, password.value)
+    if (res !== undefined) {
+      props.setAlert(res.data.error, 5, 'red')
+    }
   }
 
   return (
     <>
-      {!user ? (
+      {!props.userData ? (
         <>
-          <input
-            type='text'
-            id='username'
-            value={username}
-            onChange={changeUsername}
-            placeholder='Username'
-          />{' '}
-          <input
-            type='password'
-            id='password'
-            value={password}
-            onChange={changePassword}
-            placeholder='Password'
-          />{' '}
-          <button
-            id='login-button'
-            onClick={() => {
-              handleLogin(username, password)
-            }}
-          >
-            login
-          </button>
+          <form onSubmit={handleSubmit}>
+            <input
+              type='text'
+              id='username'
+              placeholder='Username'
+              {...username}
+            />
+            <input
+              type='password'
+              id='password'
+              placeholder='Password'
+              {...password}
+            />
+            <button id='login-button'>login</button>
+          </form>
         </>
       ) : (
         ''
@@ -46,4 +42,13 @@ const LoginForm = ({ user, handleLogin }) => {
   )
 }
 
-export default LoginForm
+const mapStateToProps = (state) => {
+  return { userData: state.auth }
+}
+
+const mapDispatchToProps = {
+  loginUser,
+  setAlert,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
