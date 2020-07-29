@@ -8,38 +8,18 @@ import Alert from './components/Alert'
 import Togglable from './components/Togglable'
 import { connect } from 'react-redux'
 import { loginUser, logoutUser, setAlert, initBlogs } from './reducers/Actions'
-import { useSelector } from 'react-redux'
 
 const App = (props) => {
-  const user = useSelector((state) => state.login)
-  const blogs = useSelector((state) => state.blogs)
-
-  const [message, setMessage] = useState(null)
-
   useEffect(() => {
     const fetchData = async () => {
       await props.initBlogs()
     }
     fetchData()
-  }, [props])
+  }, [])
 
-  if (user) {
-    window.localStorage.setItem('token', user.token)
-    window.localStorage.setItem('userData', JSON.stringify(user))
-  }
-
-  const handleLogin = async (username, password) => {
-    const res = await props.loginUser(username, password)
-    if (res.token) {
-      props.setAlert(`${res.name} logged in`, 5, 'green')
-    } else if (!res || res.data.error) {
-      props.setAlert(res.data.error, 5, 'red')
-    }
-  }
-
-  const handleLogout = () => {
-    window.localStorage.clear()
-    props.logoutUser()
+  if (props.data.auth) {
+    window.localStorage.setItem('token', props.data.auth.token)
+    window.localStorage.setItem('userData', JSON.stringify(props.data.auth))
   }
 
   // make action to add blogs and tie it to reducers
@@ -63,7 +43,7 @@ const App = (props) => {
 
     if (res) {
       blogService.deleteById(blog)
-      const blogsAfter = blogs.filter((i) => i.id !== blog.id)
+      const blogsAfter = props.data.blogs.filter((i) => i.id !== blog.id)
       // add action call to handle blog delete
     }
   }
@@ -74,14 +54,14 @@ const App = (props) => {
     })
   }
 
-  sortBlogs(blogs)
+  sortBlogs(props.data.blogs)
 
-  if (!user) {
+  if (!props.data.auth) {
     return (
       <div>
         <h2>Login in to application</h2>
         <Alert />
-        <LoginForm user={user} handleLogin={handleLogin} />
+        <LoginForm />
       </div>
     )
   }
@@ -90,22 +70,26 @@ const App = (props) => {
     <div>
       <h2>blogs</h2>
       <Alert />
-      <LogoutForm user={user} handleLogout={handleLogout} />
+      <LogoutForm />
 
       <Togglable buttonLabel='create new blog'>
-        <BlogForm user={user} handleBlogSubmit={handleBlogSubmit} />
+        <BlogForm user={props.data.auth} handleBlogSubmit={handleBlogSubmit} />
       </Togglable>
 
-      {blogs.map((blog) => (
+      {props.data.blogs.map((blog) => (
         <Blog
           key={blog.id}
           blog={blog}
-          currentUser={user}
+          currentUser={props.data.auth}
           handleDelete={handleDelete}
         />
       ))}
     </div>
   )
+}
+
+const mapStateToProps = (state) => {
+  return { data: state }
 }
 
 const mapDispatchToProps = {
@@ -115,4 +99,4 @@ const mapDispatchToProps = {
   initBlogs,
 }
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
