@@ -2,9 +2,9 @@ const config = JSON.parse(window.localStorage.getItem('userData'))
 
 const initialState = config ? config : null
 
-const loginReducer = (state = initialState, action) => {
-  console.log('loginReducer state now: ', state)
-  console.log('loginReducer action', action)
+const authReducer = (state = initialState, action) => {
+  console.log('authReducer state now: ', state)
+  console.log('authReducer action', action)
 
   switch (action.type) {
     case 'LOGIN':
@@ -16,4 +16,4 @@ const loginReducer = (state = initialState, action) => {
   }
 }
 
-export default loginReducer
+export default authReducer

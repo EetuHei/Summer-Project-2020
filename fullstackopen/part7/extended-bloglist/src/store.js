@@ -1,12 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
-import loginReducer from './reducers/loginReducer'
+import authReducer from './reducers/authReducer'
 import alertReducer from './reducers/alertReducer'
 import blogReducer from './reducers/blogReducer'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 const reducer = combineReducers({
-  login: loginReducer,
+  auth: authReducer,
   alert: alertReducer,
   blogs: blogReducer,
 })
