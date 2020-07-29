@@ -1,11 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-const Alert = ({ message }) => {
-  if (message === null) {
+const Alert = (props) => {
+  if (props.message.message === null) {
     return null
   }
   const alertStyle = {
-    color: message.color,
+    color: props.message.color,
     background: 'lightGrey',
     fontSize: '26px',
     borderStyle: 'solid',
@@ -15,15 +16,19 @@ const Alert = ({ message }) => {
   }
   return (
     <>
-      {message.message.title ? (
+      {props.message.title ? (
         <h3 style={alertStyle}>
-          a new blog: {message.message.title} by {message.message.author}
+          a new blog: {props.message.title} by {props.message.author}
         </h3>
       ) : (
-        <h3 style={alertStyle}>{message.message}</h3>
+        <h3 style={alertStyle}>{props.message.message}</h3>
       )}
     </>
   )
 }
 
-export default Alert
+const mapStateToProps = (state) => {
+  return { message: state.alert }
+}
+
+export default connect(mapStateToProps, null)(Alert)
