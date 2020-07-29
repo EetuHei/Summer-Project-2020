@@ -8,7 +8,6 @@ const config = {
 
 const getAll = async () => {
   const res = await axios.get(baseUrl)
-
   return res.data
 }
 
