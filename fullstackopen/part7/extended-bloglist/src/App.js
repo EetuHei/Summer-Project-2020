@@ -8,12 +8,13 @@ import BlogForm from './components/BlogForm'
 import Alert from './components/Alert'
 import Togglable from './components/Togglable'
 import { connect } from 'react-redux'
-import { loginUser, logoutUser } from './reducers/Actions'
-import { useSelector, useDispatch } from 'react-redux'
+import { loginUser, logoutUser, setAlert } from './reducers/Actions'
+import { useSelector } from 'react-redux'
 
 const App = (props) => {
+  const user = useSelector((state) => state.login)
+
   const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
@@ -23,33 +24,23 @@ const App = (props) => {
     })
   }, [])
 
-  useEffect(() => {
-    window.localStorage.getItem('token')
-    const user = JSON.parse(window.localStorage.getItem('userData'))
-    setUser(user)
-  }, [])
-
-
-  const userData = useSelector((state) => state.login)
+  if (user) {
+    window.localStorage.setItem('token', user.token)
+    window.localStorage.setItem('userData', JSON.stringify(user))
+  }
 
   const handleLogin = async (username, password) => {
-    props.loginUser(username, password)
-    const user = await AuthServices.login({ username, password })
-    if (!user || user.status === 401) {
-      setMessage({ message: user.data.error, color: 'red' })
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    } else {
-      window.localStorage.setItem('token', user.token)
-      window.localStorage.setItem('userData', JSON.stringify(user))
-      setUser(userData)
+    const res = await props.loginUser(username, password)
+    if (res.token) {
+      props.setAlert(`${res.name} logged in`, 5, 'green')
+    } else if (!res || res.data.error) {
+      props.setAlert(res.data.error, 5, 'red')
     }
   }
 
   const handleLogout = () => {
     window.localStorage.clear()
-    setUser(null)
+    props.logoutUser()
   }
 
   const handleBlogSubmit = async (e, title, author, url) => {
@@ -122,6 +113,8 @@ const App = (props) => {
 
 const mapDispatchToProps = {
   loginUser,
+  logoutUser,
+  setAlert,
 }
 
 export default connect(null, mapDispatchToProps)(App)
