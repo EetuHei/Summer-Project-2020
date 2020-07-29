@@ -1,4 +1,5 @@
 import AuthServices from '../services/auth'
+import blogServices from '../services/blogs'
 
 export const loginUser = (username, password) => {
   return async (dispatch) => {
@@ -27,7 +28,7 @@ export const setAlert = (message, time, color) => {
     await dispatch({
       type: 'SET_ALERT',
       data: message,
-      color,
+      color: color,
     })
     clearTimeout(timer)
     timer = setTimeout(() => {
@@ -35,5 +36,15 @@ export const setAlert = (message, time, color) => {
         type: 'RESET_ALERT',
       })
     }, time * 1000)
+  }
+}
+
+export const initBlogs = () => {
+  return async (dispatch) => {
+    const blogs = await blogServices.getAll()
+    await dispatch({
+      type: 'INIT_BLOGS',
+      data: blogs,
+    })
   }
 }
