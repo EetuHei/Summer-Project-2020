@@ -1,8 +1,6 @@
 const initialState = {
   message: null,
   color: '',
-  title: '',
-  author: '',
 }
 
 const alertReducer = (state = initialState, action) => {
