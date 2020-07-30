@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import blogServices from '../services/blogs'
 import { connect } from 'react-redux'
-import { deleteBlog } from '../reducers/Actions'
+import { likeBlog, deleteBlog } from '../reducers/Actions'
 
 const Blog = (props) => {
   const [details, setDetails] = useState(false)
-  const [likes, setLikes] = useState(props.blog.likes)
-
+  const likes = props.blog.likes
   const buttonText = () => (details === true ? 'hide' : 'view')
 
   const handleDelete = (e, blog) => {
@@ -24,13 +23,11 @@ const Blog = (props) => {
     if (!blogs.user) {
       blogs.user = null
       blogs.likes = likes + 1
-      setLikes(likes + 1)
-      blogServices.updateById(blogs)
+      props.likeBlog(blogs)
     } else {
       blogs.user = blogs.user.id
       blogs.likes = likes + 1
-      setLikes(likes + 1)
-      blogServices.updateById(blogs)
+      props.likeBlog(blogs)
     }
   }
 
@@ -61,7 +58,7 @@ const Blog = (props) => {
           <div>
             <a href='localhost:3000'>{props.blog.url}</a>
             <div className='likes'>
-              likes:{likes}
+              likes:{props.blog.likes}
               <button type='button' onClick={(e) => handleLike(e)}>
                 like
               </button>
@@ -94,6 +91,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
+  likeBlog,
   deleteBlog,
 }
 
