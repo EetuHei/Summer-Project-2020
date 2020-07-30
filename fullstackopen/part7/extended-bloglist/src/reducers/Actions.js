@@ -63,3 +63,13 @@ export const addBlog = (title, author, url) => {
     }
   }
 }
+
+export const deleteBlog = (id) => {
+  return async (dispatch) => {
+    await blogServices.deleteById(id)
+    dispatch({
+      type: 'DELETE_BLOG',
+      data: id,
+    })
+  }
+}
