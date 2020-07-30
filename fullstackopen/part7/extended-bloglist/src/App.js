@@ -22,16 +22,13 @@ const App = (props) => {
     window.localStorage.setItem('userData', JSON.stringify(props.data.auth))
   }
 
-  const handleDelete = (e, blog) => {
-    e.preventDefault()
-    const res = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
-
-    if (res) {
-      blogService.deleteById(blog)
-      const blogsAfter = props.data.blogs.filter((i) => i.id !== blog.id)
-      // add action call to handle blog delete
-    }
+  const sortBlogs = (blogs) => {
+    blogs.sort((a, b) => {
+      return b.likes - a.likes
+    })
   }
+
+  sortBlogs(props.data.blogs)
 
   if (!props.data.auth) {
     return (
@@ -53,11 +50,9 @@ const App = (props) => {
         <BlogForm />
       </Togglable>
 
-      {props.data.blogs
-        .sort((a, b) => b.likes - a.likes)
-        .map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
+      {props.data.blogs.map((blog) => (
+        <Blog key={blog.id} blog={blog} />
+      ))}
     </div>
   )
 }
