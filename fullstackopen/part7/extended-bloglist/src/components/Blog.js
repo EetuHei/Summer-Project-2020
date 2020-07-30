@@ -9,6 +9,15 @@ const Blog = (props) => {
 
   const buttonText = () => (details === true ? 'hide' : 'view')
 
+  const handleDelete = (e, blog) => {
+    e.preventDefault()
+    const res = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
+
+    if (res) {
+      props.deleteBlog(blog)
+    }
+  }
+
   const handleLike = (e) => {
     e.preventDefault()
     let blogs = { ...props.blog }
@@ -33,8 +42,6 @@ const Blog = (props) => {
     borderWidth: 1,
     marginBottom: 5,
   }
-
-  // onClick={(e) => handleDelete(e, blog)}
 
   return (
     <div style={blogStyle}>
@@ -62,7 +69,11 @@ const Blog = (props) => {
               {!props.blog.user ? (
                 ''
               ) : props.data.auth.name === props.blog.user.name ? (
-                <button type='button' id='deleteBtn'>
+                <button
+                  type='button'
+                  id='deleteBtn'
+                  onClick={(e) => handleDelete(e, props.blog)}
+                >
                   delete
                 </button>
               ) : (
