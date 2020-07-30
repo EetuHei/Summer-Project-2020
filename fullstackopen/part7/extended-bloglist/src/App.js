@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import blogService from './services/blogs'
+import { Switch, Route, Redirect, Link, useLocation } from 'react-router-dom'
 import LoginForm from './components/auth/LoginForm'
 import LogoutForm from './components/auth/LogoutForm'
 import BlogForm from './components/BlogForm'
@@ -17,6 +17,8 @@ const App = (props) => {
     fetchData()
   }, [])
 
+  let location = useLocation
+
   if (props.data.auth) {
     window.localStorage.setItem('token', props.data.auth.token)
     window.localStorage.setItem('userData', JSON.stringify(props.data.auth))
@@ -27,7 +29,6 @@ const App = (props) => {
       return b.likes - a.likes
     })
   }
-
   sortBlogs(props.data.blogs)
 
   if (!props.data.auth) {
