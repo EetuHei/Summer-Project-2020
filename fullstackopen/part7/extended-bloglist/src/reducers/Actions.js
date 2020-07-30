@@ -48,3 +48,18 @@ export const initBlogs = () => {
     })
   }
 }
+
+export const addBlog = (title, author, url) => {
+  return async (dispatch) => {
+    const submitBlog = await blogServices.addNew({ title, author, url })
+    if (submitBlog.data && submitBlog.data.error) {
+      return submitBlog
+    } else {
+      await dispatch({
+        type: 'ADD_BLOG',
+        data: submitBlog,
+      })
+      return submitBlog
+    }
+  }
+}
