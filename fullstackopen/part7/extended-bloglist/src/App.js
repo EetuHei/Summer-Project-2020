@@ -22,21 +22,6 @@ const App = (props) => {
     window.localStorage.setItem('userData', JSON.stringify(props.data.auth))
   }
 
-  // make action to add blogs and tie it to reducers
-
-  const handleBlogSubmit = async (e, title, author, url) => {
-    e.preventDefault()
-    const submitBlog = await blogService.addNew({ title, author, url })
-    if (!submitBlog || submitBlog.status === 400) {
-      props.setAlert(submitBlog.data.error, 5, 'red')
-    } else if (submitBlog.status === 500) {
-      props.setAlert(submitBlog.data.error.message, 5, 'red')
-    } else if (submitBlog) {
-      props.setAlert(submitBlog, 5, 'green')
-      //add action call to handle adding of new blog
-    }
-  }
-
   const handleDelete = (e, blog) => {
     e.preventDefault()
     const res = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
@@ -73,7 +58,7 @@ const App = (props) => {
       <LogoutForm />
 
       <Togglable buttonLabel='create new blog'>
-        <BlogForm user={props.data.auth} handleBlogSubmit={handleBlogSubmit} />
+        <BlogForm />
       </Togglable>
 
       {props.data.blogs.map((blog) => (
