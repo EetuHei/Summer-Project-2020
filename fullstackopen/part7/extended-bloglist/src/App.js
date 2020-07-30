@@ -33,14 +33,6 @@ const App = (props) => {
     }
   }
 
-  const sortBlogs = (blogs) => {
-    blogs.sort((a, b) => {
-      return b.likes - a.likes
-    })
-  }
-
-  sortBlogs(props.data.blogs)
-
   if (!props.data.auth) {
     return (
       <div>
@@ -61,14 +53,11 @@ const App = (props) => {
         <BlogForm />
       </Togglable>
 
-      {props.data.blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          currentUser={props.data.auth}
-          handleDelete={handleDelete}
-        />
-      ))}
+      {props.data.blogs
+        .sort((a, b) => b.likes - a.likes)
+        .map((blog) => (
+          <Blog key={blog.id} blog={blog} />
+        ))}
     </div>
   )
 }
