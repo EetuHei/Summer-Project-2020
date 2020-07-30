@@ -64,6 +64,16 @@ export const addBlog = (title, author, url) => {
   }
 }
 
+export const likeBlog = (blog) => {
+  return async (dispatch) => {
+    const res = await blogServices.updateById(blog)
+    await dispatch({
+      type: 'LIKE_BLOG',
+      data: { id: res.id },
+    })
+  }
+}
+
 export const deleteBlog = (id) => {
   return async (dispatch) => {
     await blogServices.deleteById(id)
