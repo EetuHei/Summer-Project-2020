@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import blogServices from '../services/blogs'
+import { connect } from 'react-redux'
+import { deleteBlog } from '../reducers/Actions'
 
-const Blog = ({ blog, currentUser, handleDelete }) => {
+const Blog = (props) => {
   const [details, setDetails] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
+  const [likes, setLikes] = useState(props.blog.likes)
 
   const buttonText = () => (details === true ? 'hide' : 'view')
 
   const handleLike = (e) => {
     e.preventDefault()
-    let blogs = { ...blog }
+    let blogs = { ...props.blog }
     if (!blogs.user) {
       blogs.user = null
       blogs.likes = likes + 1
@@ -32,14 +34,16 @@ const Blog = ({ blog, currentUser, handleDelete }) => {
     marginBottom: 5,
   }
 
+  // onClick={(e) => handleDelete(e, blog)}
+
   return (
     <div style={blogStyle}>
-      <div id="container">
-        {blog.title}, by: {blog.author}
+      <div id='container'>
+        {props.blog.title}, by: {props.blog.author}
         <button
           style={{ marginLeft: '5px' }}
           id='view'
-          className="viewBtn"
+          className='viewBtn'
           onClick={() => setDetails(!details)}
         >
           {buttonText()}
@@ -48,17 +52,17 @@ const Blog = ({ blog, currentUser, handleDelete }) => {
       {details ? (
         <div className='allDetails'>
           <div>
-            <a href='localhost:3000'>{blog.url}</a>
-            <div className="likes">
+            <a href='localhost:3000'>{props.blog.url}</a>
+            <div className='likes'>
               likes:{likes}
               <button type='button' onClick={(e) => handleLike(e)}>
                 like
               </button>
-              {!blog.user ? '' : <div>{blog.user.name}</div>}
-              {!blog.user ? (
+              {!props.blog.user ? '' : <div>{props.blog.user.name}</div>}
+              {!props.blog.user ? (
                 ''
-              ) : currentUser.name === blog.user.name ? (
-                <button type='button' id="deleteBtn" onClick={(e) => handleDelete(e, blog)}>
+              ) : props.data.auth.name === props.blog.user.name ? (
+                <button type='button' id='deleteBtn'>
                   delete
                 </button>
               ) : (
@@ -74,4 +78,12 @@ const Blog = ({ blog, currentUser, handleDelete }) => {
   )
 }
 
-export default Blog
+const mapStateToProps = (state) => {
+  return { data: state }
+}
+
+const mapDispatchToProps = {
+  deleteBlog,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Blog)
