@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { loginUser, setAlert } from '../../reducers/Actions'
-import { useField } from '../hooks/useField'
+import { useField } from '../../hooks/useField'
 
 const LoginForm = (props) => {
   const username = useField('text')
