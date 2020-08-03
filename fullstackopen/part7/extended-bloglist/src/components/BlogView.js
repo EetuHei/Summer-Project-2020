@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/Actions'
 import Comments from './Comments'
+import CommentForm from './CommentForm'
 
 const BlogView = (props) => {
   const blog = props.blogData.filter(
@@ -57,6 +58,7 @@ const BlogView = (props) => {
         ''
       )}
       <h2>comments</h2>
+      <CommentForm id={props.match.params.id} />
       {blog[0].comments.map((comment) => (
         <Comments key={comment.id} comment={comment} />
       ))}
