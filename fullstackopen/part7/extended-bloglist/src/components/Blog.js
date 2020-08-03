@@ -5,33 +5,6 @@ import { likeBlog, deleteBlog } from '../reducers/Actions'
 import { Link } from 'react-router-dom'
 
 const Blog = (props) => {
-  const [details, setDetails] = useState(false)
-  const likes = props.blog.likes
-  const buttonText = () => (details === true ? 'hide' : 'view')
-
-  const handleDelete = (e, blog) => {
-    e.preventDefault()
-    const res = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
-
-    if (res) {
-      props.deleteBlog(blog)
-    }
-  }
-
-  const handleLike = (e) => {
-    e.preventDefault()
-    let blogs = { ...props.blog }
-    if (!blogs.user) {
-      blogs.user = null
-      blogs.likes = likes + 1
-      props.likeBlog(blogs)
-    } else {
-      blogs.user = blogs.user.id
-      blogs.likes = likes + 1
-      props.likeBlog(blogs)
-    }
-  }
-
   let blogStyle = {
     display: '',
     marginTop: 10,
