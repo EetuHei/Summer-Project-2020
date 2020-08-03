@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import blogServices from '../services/blogs'
 import { connect } from 'react-redux'
 import { likeBlog, deleteBlog } from '../reducers/Actions'
+import { Link } from 'react-router-dom'
 
 const Blog = (props) => {
   const [details, setDetails] = useState(false)
@@ -43,45 +44,10 @@ const Blog = (props) => {
   return (
     <div style={blogStyle}>
       <div id='container'>
-        {props.blog.title}, by: {props.blog.author}
-        <button
-          style={{ marginLeft: '5px' }}
-          id='view'
-          className='viewBtn'
-          onClick={() => setDetails(!details)}
-        >
-          {buttonText()}
-        </button>
+        <Link to={`/blogs/${props.blog.id}`}>
+          {props.blog.title}, by: {props.blog.author}
+        </Link>
       </div>
-      {details ? (
-        <div className='allDetails'>
-          <div>
-            <a href='localhost:3000'>{props.blog.url}</a>
-            <div className='likes'>
-              likes:{props.blog.likes}
-              <button type='button' onClick={(e) => handleLike(e)}>
-                like
-              </button>
-              {!props.blog.user ? '' : <div>{props.blog.user.name}</div>}
-              {!props.blog.user ? (
-                ''
-              ) : props.data.auth.name === props.blog.user.name ? (
-                <button
-                  type='button'
-                  id='deleteBtn'
-                  onClick={(e) => handleDelete(e, props.blog)}
-                >
-                  delete
-                </button>
-              ) : (
-                ''
-              )}
-            </div>
-          </div>
-        </div>
-      ) : (
-        ''
-      )}
     </div>
   )
 }
