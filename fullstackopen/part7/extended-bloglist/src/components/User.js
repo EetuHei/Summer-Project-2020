@@ -15,7 +15,7 @@ const User = (props) => {
       <h1>{user[0].name}</h1>
       <h3>added blogs</h3>
       {user[0].blogs.map((blog) => (
-        <div style={{ marginLeft: '20px' }}>
+        <div key={blog.id} style={{ marginLeft: '20px' }}>
           <li>{blog.title}</li>
         </div>
       ))}
