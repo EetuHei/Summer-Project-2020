@@ -9,6 +9,7 @@ import User from './components/User'
 import Alert from './components/Alert'
 import Togglable from './components/Togglable'
 import BlogView from './components/BlogView'
+import Navbar from './components/Navbar'
 import { connect } from 'react-redux'
 import {
   loginUser,
@@ -53,9 +54,9 @@ const App = (props) => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <Navbar />
+      <h2>blog app</h2>
       <Alert />
-      <LogoutForm />
       <Switch>
         <Route path='/users' exact component={UsersList} />
         <Route path='/users/:id' exact component={User} />
