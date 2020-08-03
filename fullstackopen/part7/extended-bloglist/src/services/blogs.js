@@ -39,4 +39,18 @@ const deleteById = async (data) => {
   }
 }
 
-export default { getAll, addNew, updateById, deleteById }
+const addComment = async (id, comment) => {
+  try {
+    const res = await axios.put(
+      `${baseUrl}/${id}/comments`,
+      { comment: comment },
+      config
+    )
+    return res.data
+  } catch (e) {
+    console.error(e)
+    return e.response
+  }
+}
+
+export default { getAll, addNew, updateById, deleteById, addComment }
