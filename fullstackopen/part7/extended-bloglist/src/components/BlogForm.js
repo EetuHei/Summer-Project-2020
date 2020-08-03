@@ -11,7 +11,6 @@ const BlogForm = (props) => {
   const handleBlogSubmit = async (e) => {
     e.preventDefault()
     const res = await props.addBlog(title.value, author.value, url.value)
-    console.log('response from server: ', res)
     if (!res || res.status === 400) {
       props.setAlert(res.data.error, 5, 'red')
     } else if (res.status === 500) {
