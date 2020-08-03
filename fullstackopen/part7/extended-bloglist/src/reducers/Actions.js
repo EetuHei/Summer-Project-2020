@@ -1,5 +1,6 @@
 import AuthServices from '../services/auth'
 import blogServices from '../services/blogs'
+import userServices from '../services/user'
 
 export const loginUser = (username, password) => {
   return async (dispatch) => {
@@ -80,6 +81,16 @@ export const deleteBlog = (id) => {
     dispatch({
       type: 'DELETE_BLOG',
       data: id,
+    })
+  }
+}
+
+export const initUsers = () => {
+  return async (dispatch) => {
+    const users = await userServices.getAll()
+    dispatch({
+      type: 'INIT_USERS',
+      data: users,
     })
   }
 }
