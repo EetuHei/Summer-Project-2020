@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { loginUser, setAlert } from '../../reducers/Actions'
 import { useField } from '../../hooks/useField'

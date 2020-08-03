@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { useField } from '../hooks/useField'
 import { addBlog, setAlert } from '../reducers/Actions'

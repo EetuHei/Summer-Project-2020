@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Blog from './components/Blog'
-import { Switch, Route, Redirect, Link, useLocation } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import LoginForm from './components/auth/LoginForm'
-import LogoutForm from './components/auth/LogoutForm'
 import BlogForm from './components/BlogForm'
 import UsersList from './components/UsersList'
 import User from './components/User'
@@ -27,8 +26,6 @@ const App = (props) => {
     }
     fetchData()
   }, [])
-
-  let location = useLocation
 
   if (props.data.auth) {
     window.localStorage.setItem('token', props.data.auth.token)

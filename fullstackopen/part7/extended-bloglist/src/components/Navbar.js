@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import LogoutForm from './auth/LogoutForm'
 import { connect } from 'react-redux'
 import { logoutUser } from '../reducers/Actions'
 
 const Navbar = (props) => {
-  
-    const padding = {
+  const padding = {
     paddingRight: 5,
   }
 
@@ -17,7 +15,7 @@ const Navbar = (props) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-    backgroundColor: 'darkgrey'
+    backgroundColor: 'darkgrey',
   }
 
   return (

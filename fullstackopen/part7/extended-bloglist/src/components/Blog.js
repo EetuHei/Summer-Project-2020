@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import blogServices from '../services/blogs'
+import React from 'react'
 import { connect } from 'react-redux'
 import { likeBlog, deleteBlog } from '../reducers/Actions'
 import { Link } from 'react-router-dom'
