@@ -94,3 +94,14 @@ export const initUsers = () => {
     })
   }
 }
+
+export const addComment = (id, comment) => {
+  return async (dispatch) => {
+    let newComment = await blogServices.addComment(id, comment)
+    newComment = { ...newComment, id }
+    dispatch({
+      type: 'ADD_COMMENT',
+      data: newComment,
+    })
+  }
+}
