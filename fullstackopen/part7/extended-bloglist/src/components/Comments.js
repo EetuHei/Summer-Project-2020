@@ -1,9 +1,9 @@
 import React from 'react'
 
 const Comments = ({ comment }) => {
-    
+
   return (
-    <div>
+    <div key="comment">
       <li>{comment.comment}</li>
     </div>
   )
