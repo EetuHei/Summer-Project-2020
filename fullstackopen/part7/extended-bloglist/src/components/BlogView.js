@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { likeBlog } from '../reducers/Actions'
+import { likeBlog, deleteBlog } from '../reducers/Actions'
+import Comments from './Comments'
 
 const BlogView = (props) => {
   const blog = props.blogData.filter(
@@ -10,6 +11,15 @@ const BlogView = (props) => {
 
   if (blog.length !== 1) {
     return <Redirect to='/' />
+  }
+
+  const handleDelete = (e, blog) => {
+    e.preventDefault()
+    const res = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
+
+    if (res) {
+      props.deleteBlog(blog)
+    }
   }
 
   const handleLike = (e) => {
@@ -35,16 +45,32 @@ const BlogView = (props) => {
         </button>
       </p>
       <p>added by: {blog[0].user.name}</p>
+      {blog[0].user.name === props.userData.name ? (
+        <button
+          type='button'
+          id='deleteBtn'
+          onClick={(e) => handleDelete(e, blog[0])}
+        >
+          delete
+        </button>
+      ) : (
+        ''
+      )}
+      <h2>comments</h2>
+      {blog[0].comments.map((comment) => (
+        <Comments key={comment.id} comment={comment} />
+      ))}
     </div>
   )
 }
 
 const mapStateToProps = (state) => {
-  return { blogData: state.blogs }
+  return { blogData: state.blogs, userData: state.auth }
 }
 
 const mapDispatchToProps = {
   likeBlog,
+  deleteBlog,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogView)
