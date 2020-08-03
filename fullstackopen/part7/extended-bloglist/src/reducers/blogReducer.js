@@ -21,6 +21,23 @@ const blogReducer = (state = [], action) => {
     case 'DELETE_BLOG':
       const id = action.data.id
       return state.filter((blog) => blog.id !== id)
+
+    case 'ADD_COMMENT':
+      const commentId = action.data.id
+      const comment = action.data.comment
+
+      const blog = state.find((blog) => blog.id === commentId)
+      const newComment = { comment, commentId }
+
+      const updateBlogComment = {
+        ...blog,
+        comments: [...blog.comments, newComment],
+      }
+
+      return state.map((blog) =>
+        blog.id !== commentId ? blog : updateBlogComment
+      )
+
     default:
       return state
   }
