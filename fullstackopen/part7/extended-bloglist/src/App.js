@@ -8,6 +8,7 @@ import UsersList from './components/UsersList'
 import User from './components/User'
 import Alert from './components/Alert'
 import Togglable from './components/Togglable'
+import BlogView from './components/BlogView'
 import { connect } from 'react-redux'
 import {
   loginUser,
@@ -58,6 +59,7 @@ const App = (props) => {
       <Switch>
         <Route path='/users' exact component={UsersList} />
         <Route path='/users/:id' exact component={User} />
+        <Route path='/blogs/:id' exact component={BlogView} />
         <Route path='/' exact>
           <Togglable buttonLabel='create new blog'>
             <BlogForm />
