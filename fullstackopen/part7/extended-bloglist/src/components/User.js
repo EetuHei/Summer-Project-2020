@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
 
 const User = (props) => {
-  console.log('props in User component: ', props)
-
   const user = props.userData.filter(
     (user) => user.id === props.match.params.id
   )
