@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { useField } from '../hooks/useField'
 import { addBlog, setAlert } from '../reducers/Actions'
+import { Button, Form } from 'react-bootstrap'
 
 const BlogForm = (props) => {
   const title = useField('text')
@@ -22,22 +23,18 @@ const BlogForm = (props) => {
 
   if (props.userData.token) {
     return (
-      <form onSubmit={handleBlogSubmit}>
+      <Form onSubmit={handleBlogSubmit}>
         <h2>Create new</h2>
-        <p>
-          Title: <input type='text' id='title' {...title} />
-        </p>
-        <p>
-          Author:
-          <input type='text' id='author' value={author} {...author} />
-        </p>
-        <p>
-          Url: <input type='text' id='url' {...url} />
-        </p>
-        <button id='submit' type='submit'>
+        <Form.Label>title</Form.Label>
+        <Form.Control type='text' id='title' {...title} />
+        <Form.Label>author</Form.Label>
+        <Form.Control type='text' id='author' value={author} {...author} />
+        <Form.Label>url</Form.Label>
+        <Form.Control type='text' id='url' {...url} />
+        <Button size='md' variant='outline-secondary' id='submit' type='submit'>
           create
-        </button>
-      </form>
+        </Button>
+      </Form>
     )
   }
 }
