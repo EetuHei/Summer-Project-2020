@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import propTypes from 'prop-types'
+import { Button } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
 const Togglable = (props) => {
   const [visible, setVisible] = useState(false)
+
+  console.log('props in togglable: ', props)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
@@ -12,13 +16,24 @@ const Togglable = (props) => {
   return (
     <>
       <div style={hideWhenVisible}>
-        <button id='newBlog' onClick={toggleVisibility}>
+        <Button
+          size='md'
+          variant='outline-secondary'
+          id='newBlog'
+          onClick={toggleVisibility}
+        >
           {props.buttonLabel}
-        </button>
+        </Button>
       </div>
       <div style={showWhenVisible}>
         {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <Button
+          size='md'
+          variant='outline-secondary'
+          onClick={toggleVisibility}
+        >
+          cancel
+        </Button>
       </div>
     </>
   )
@@ -28,4 +43,8 @@ Togglable.propTypes = {
   buttonLabel: propTypes.string.isRequired,
 }
 
-export default Togglable
+const mapStateToProps = (state) => {
+  return { alertState: state }
+}
+
+export default connect(mapStateToProps, null)(Togglable)
