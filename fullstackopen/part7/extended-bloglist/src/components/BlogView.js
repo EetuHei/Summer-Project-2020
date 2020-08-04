@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/Actions'
 import Comments from './Comments'
 import CommentForm from './CommentForm'
+import { Button } from 'react-bootstrap'
 
 const BlogView = (props) => {
   const blog = props.blogData.filter(
@@ -38,22 +39,38 @@ const BlogView = (props) => {
   return (
     <div>
       <h1>{blog[0].title}</h1>
-      <a href='localhost:3000'>{blog[0].url}</a>
+      <a
+        href='localhost:3000'
+        style={{
+          color: 'inherit',
+          marginRight: '5px',
+          textDecoration: 'underline',
+        }}
+      >
+        {blog[0].url}
+      </a>
       <p>
         likes: {blog[0].likes}{' '}
-        <button type='button' onClick={(e) => handleLike(e)}>
+        <Button
+          size='md'
+          variant='outline-secondary'
+          type='button'
+          onClick={(e) => handleLike(e)}
+        >
           like
-        </button>
+        </Button>
       </p>
       <p>added by: {blog[0].user.name}</p>
       {blog[0].user.name === props.userData.name ? (
-        <button
+        <Button
+          size='md'
+          variant='outline-secondary'
           type='button'
           id='deleteBtn'
           onClick={(e) => handleDelete(e, blog[0])}
         >
           delete
-        </button>
+        </Button>
       ) : (
         ''
       )}
