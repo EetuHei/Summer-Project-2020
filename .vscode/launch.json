@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch API",
-      "program": "${workspaceFolder}\\eloquent\\21-skill-sharing\\skillsharing\\skillsharing_server.js"
+      "program": "${workspaceFolder}\\fullstackopen\\part8\\number-of-books-and-authors\\index.js"
     }
   ]
 }
