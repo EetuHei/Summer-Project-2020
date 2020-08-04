@@ -8,7 +8,8 @@ import User from './components/User'
 import Alert from './components/Alert'
 import Togglable from './components/Togglable'
 import BlogView from './components/BlogView'
-import Navbar from './components/Navbar'
+import NavbarComponent from './components/Navbar'
+import { Container } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import {
   loginUser,
@@ -42,7 +43,6 @@ const App = (props) => {
   if (!props.data.auth) {
     return (
       <div>
-        <h2>Login in to application</h2>
         <Alert />
         <LoginForm />
       </div>
@@ -51,23 +51,25 @@ const App = (props) => {
 
   return (
     <div>
-      <Navbar />
-      <h2>blog app</h2>
-      <Alert />
-      <Switch>
-        <Route path='/users' exact component={UsersList} />
-        <Route path='/users/:id' exact component={User} />
-        <Route path='/blogs/:id' exact component={BlogView} />
-        <Route path='/' exact>
-          <Togglable buttonLabel='create new blog'>
-            <BlogForm />
-          </Togglable>
+      <NavbarComponent />
+      <Container style={{ padding: '5' }}>
+        <h2>blog app</h2>
+        <Alert />
+        <Switch>
+          <Route path='/users' exact component={UsersList} />
+          <Route path='/users/:id' exact component={User} />
+          <Route path='/blogs/:id' exact component={BlogView} />
+          <Route path='/' exact>
+            <Togglable buttonLabel='create new blog'>
+              <BlogForm />
+            </Togglable>
 
-          {props.data.blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
-        </Route>
-      </Switch>
+            {props.data.blogs.map((blog) => (
+              <Blog key={blog.id} blog={blog} />
+            ))}
+          </Route>
+        </Switch>
+      </Container>
     </div>
   )
 }
