@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { Jumbotron } from 'react-bootstrap'
 
 const User = (props) => {
   const user = props.userData.filter(
@@ -12,13 +14,18 @@ const User = (props) => {
   }
   return (
     <div>
-      <h1>{user[0].name}</h1>
-      <h3>added blogs</h3>
-      {user[0].blogs.map((blog) => (
-        <div key={blog.id} style={{ marginLeft: '20px' }}>
-          <li>{blog.title}</li>
-        </div>
-      ))}
+      <Jumbotron>
+        <h1>{user[0].name}</h1>
+        <h3>added blogs</h3>
+        {user[0].blogs.map((blog) => (
+          <div key={blog.id} style={{ marginLeft: '20px' }}>
+            <Link to={`/blogs/${blog.id}`}>
+              {' '}
+              <li>{blog.title}</li>
+            </Link>
+          </div>
+        ))}
+      </Jumbotron>
     </div>
   )
 }
