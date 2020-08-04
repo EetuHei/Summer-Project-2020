@@ -2,6 +2,7 @@ import React from 'react'
 import { useField } from '../hooks/useField'
 import { addComment } from '../reducers/Actions'
 import { connect } from 'react-redux'
+import { Button, Form } from 'react-bootstrap'
 
 const CommentForm = (props) => {
   const { reset: resetComment, ...comment } = useField('text')
@@ -18,12 +19,12 @@ const CommentForm = (props) => {
   }
 
   return (
-    <form onSubmit={handleCommentSubmit}>
-      <input type='text' id='comment' {...comment} />
-      <button id='submit' type='submit'>
+    <Form onSubmit={handleCommentSubmit}>
+      <Form.Control type='text' id='comment' {...comment} />
+      <Button size='md' variant='outline-secondary' id='submit' type='submit'>
         add comment
-      </button>
-    </form>
+      </Button>
+    </Form>
   )
 }
 
