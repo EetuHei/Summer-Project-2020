@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { loginUser, setAlert } from '../../reducers/Actions'
 import { useField } from '../../hooks/useField'
+import { Button, Form, Container } from 'react-bootstrap'
 
 const LoginForm = (props) => {
   const username = useField('text')
@@ -19,21 +20,33 @@ const LoginForm = (props) => {
     <>
       {!props.userData ? (
         <>
-          <form onSubmit={handleSubmit}>
-            <input
-              type='text'
-              id='username'
-              placeholder='Username'
-              {...username}
-            />
-            <input
-              type='password'
-              id='password'
-              placeholder='Password'
-              {...password}
-            />
-            <button id='login-button'>login</button>
-          </form>
+          <Container>
+            <h2>Login in to application</h2>
+            <Form onSubmit={handleSubmit}>
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type='text'
+                id='username'
+                placeholder='Username'
+                {...username}
+              />
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type='password'
+                id='password'
+                placeholder='Password'
+                {...password}
+              />
+              <Button
+                size='md'
+                variant='outline-secondary'
+                id='login-button'
+                type='submit'
+              >
+                login
+              </Button>
+            </Form>
+          </Container>
         </>
       ) : (
         ''
