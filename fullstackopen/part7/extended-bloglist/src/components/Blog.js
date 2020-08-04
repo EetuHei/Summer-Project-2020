@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { likeBlog, deleteBlog } from '../reducers/Actions'
 import { Link } from 'react-router-dom'
+import { Container, ListGroup } from 'react-bootstrap'
 
 const Blog = (props) => {
   let blogStyle = {
@@ -14,12 +15,14 @@ const Blog = (props) => {
   }
 
   return (
-    <div style={blogStyle}>
-      <div id='container'>
-        <Link to={`/blogs/${props.blog.id}`}>
-          {props.blog.title}, by: {props.blog.author}
-        </Link>
-      </div>
+    <div>
+        <ListGroup>
+          <Link to={`/blogs/${props.blog.id}`}>
+            <ListGroup.Item>
+              {props.blog.title}, by: {props.blog.author}
+            </ListGroup.Item>
+          </Link>
+        </ListGroup>
     </div>
   )
 }
