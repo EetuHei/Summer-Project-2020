@@ -31,7 +31,7 @@ const App = () => {
         authors={result.data.allBooks.map((book) => book.author)}
       />
 
-      <Books show={page === 'books'} />
+      <Books show={page === 'books'} books={result.data.allBooks} />
 
       <NewBook show={page === 'add'} />
     </div>
