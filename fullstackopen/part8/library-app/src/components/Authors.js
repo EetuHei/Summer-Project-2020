@@ -4,7 +4,14 @@ const Authors = (props) => {
   if (!props.show) {
     return null
   }
-  const authors = []
+
+  // remove duplicated authors from authors array
+  const removeDup = props.authors.reduce(
+    (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
+    []
+  )
+
+  const authors = [...removeDup]
 
   return (
     <div>
