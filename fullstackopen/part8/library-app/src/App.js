@@ -44,9 +44,7 @@ const App = () => {
         show={page === 'authors'}
         authors={result.data.allBooks.map((book) => book.author)}
       />
-
       <Books show={page === 'books'} books={result.data.allBooks} />
-
       <NewBook show={page === 'add'} setError={notify} />
     </div>
   )
