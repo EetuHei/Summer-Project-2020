@@ -83,7 +83,7 @@ const typeDefs = gql`
   type Author {
     name: String!
     id: ID!
-    born: String
+    born: Int
     bookCount: Int!
   }
 
@@ -139,8 +139,13 @@ const resolvers = {
 
   Book: {
     author: (root) => {
+      const filterAuthors = authors.filter(
+        (author) => author.name === root.author
+      )
       return {
         name: root.author,
+        born: filterAuthors[0].born,
+        id: filterAuthors[0].id,
       }
     },
   },
