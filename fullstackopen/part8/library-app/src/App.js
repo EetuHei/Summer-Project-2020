@@ -20,6 +20,15 @@ const App = () => {
   const [token, setToken] = useState(null)
   const client = useApolloClient()
 
+  if (!token) {
+    const userToken = window.localStorage.getItem('user-token')
+    if (userToken) {
+      setToken(userToken)
+    } else {
+      setToken(null)
+    }
+  }
+
   const result = useQuery(ALL_BOOKS, {
     pollInterval: 2000,
   })
@@ -68,7 +77,7 @@ const App = () => {
           setToken={setToken}
         />
       ) : (
-        ""
+        ''
       )}
     </div>
   )
