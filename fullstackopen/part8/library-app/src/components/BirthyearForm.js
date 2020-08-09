@@ -12,7 +12,7 @@ const BirthyearForm = (props) => {
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
     refetchQueries: [{ query: ALL_BOOKS }],
     onError: (error) => {
-      props.setError(error.graphQLErrors[0].message)
+      props.setError('there was an error')
     },
   })
 
