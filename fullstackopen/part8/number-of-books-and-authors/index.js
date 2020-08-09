@@ -102,10 +102,6 @@ const resolvers = {
   Author: {
     bookCount: async (authors) => {
       const authorBooks = await Book.find({ author: authors._id })
-      if (authorBooks.length === 0) {
-        const asd = await await Book.find({ author: authors.id })
-        return asd.length
-      }
       return authorBooks.length
     },
   },
