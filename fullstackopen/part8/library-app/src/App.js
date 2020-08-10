@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, useApolloClient } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
@@ -20,17 +20,12 @@ const App = () => {
   const [token, setToken] = useState(null)
   const client = useApolloClient()
 
-  if (!token) {
-    const userToken = window.localStorage.getItem('user-token')
-    if (userToken) {
-      setToken(userToken)
-    } else {
-      setToken(null)
-    }
-  }
-
   const result = useQuery(ALL_BOOKS, {
     pollInterval: 2000,
+  })
+
+  useEffect(() => {
+    setToken(localStorage.getItem('user-token'))
   })
 
   if (result.loading) {
@@ -55,29 +50,34 @@ const App = () => {
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
+
         {!token ? (
           <button onClick={() => setPage('login')}>login</button>
         ) : (
-          <button onClick={logout}>logout</button>
+          <>
+            <button onClick={() => setPage('add')}>add book</button>
+            <button onClick={logout}>logout</button>
+          </>
         )}
       </div>
       <Notify errorMessage={errorMessage} />
       <Authors
+        token={token}
         setError={notify}
         show={page === 'authors'}
         authors={result.data.allBooks.map((book) => book.author)}
       />
       <Books show={page === 'books'} books={result.data.allBooks} />
-      <NewBook show={page === 'add'} setError={notify} />
+
       {!token && page === 'login' ? (
         <LoginForm
+          setPage={setPage}
           show={page === ' login'}
           setError={notify}
           setToken={setToken}
         />
       ) : (
-        ''
+        <NewBook show={page === 'add'} setError={notify} />
       )}
     </div>
   )
