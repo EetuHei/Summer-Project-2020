@@ -4,7 +4,8 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import { ALL_BOOKS } from './service/queries'
+import { ALL_BOOKS, GET_USER } from './service/queries'
+import RecommendedBooks from './components/RecommendedBooks'
 
 const Notify = ({ errorMessage }) => {
   if (!errorMessage) {
@@ -18,14 +19,17 @@ const App = () => {
   const [page, setPage] = useState('authors')
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
+  const [user, setUser] = useState(null)
   const client = useApolloClient()
 
+  const userData = useQuery(GET_USER)
   const result = useQuery(ALL_BOOKS, {
     pollInterval: 2000,
   })
 
   useEffect(() => {
     setToken(localStorage.getItem('user-token'))
+    if (!userData.loading) setUser(userData.data.me)
   })
 
   if (result.loading) {
@@ -34,6 +38,7 @@ const App = () => {
 
   const logout = () => {
     setToken(null)
+    setUser(null)
     localStorage.clear()
     client.resetStore()
   }
@@ -56,6 +61,7 @@ const App = () => {
         ) : (
           <>
             <button onClick={() => setPage('add')}>add book</button>
+            <button onClick={() => setPage('recommended')}>recommended</button>
             <button onClick={logout}>logout</button>
           </>
         )}
@@ -77,7 +83,14 @@ const App = () => {
           setToken={setToken}
         />
       ) : (
-        <NewBook show={page === 'add'} setError={notify} />
+        <div>
+          <NewBook show={page === 'add'} setError={notify} />
+          <RecommendedBooks
+            show={page === 'recommended'}
+            books={result.data.allBooks}
+            user={user}
+          />
+        </div>
       )}
     </div>
   )
