@@ -1,7 +1,6 @@
 import React from 'react'
 
 const RecommendedBooks = (props) => {
-  console.log('props in recommendations: ', props)
   if (!props.show || !props.user) {
     return null
   }
