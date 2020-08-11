@@ -13,6 +13,17 @@ const Persons = ({ persons }) => {
   useEffect(() => {
     if (result.data) {
       setPerson(result.data.findPerson)
+      const update = (store, response) => {
+        const dataInStore = store.readQuery({ query: ALL_BOOKS })
+        store.writeQuery({
+          query: ALL_BOOKS,
+          data: {
+            ...dataInStore,
+            allBooks: [...dataInStore.allBooks, response.data.addBook],
+          },
+        })
+      }
+      update()
     }
   }, [result])
 
