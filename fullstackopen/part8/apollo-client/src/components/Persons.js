@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLazyQuery } from '@apollo/client'
-import { FIND_PERSON } from '../services/queries'
+import { FIND_PERSON, ALL_PERSONS } from '../services/queries'
 
 const Persons = ({ persons }) => {
   const [getPerson, result] = useLazyQuery(FIND_PERSON)
@@ -14,12 +14,12 @@ const Persons = ({ persons }) => {
     if (result.data) {
       setPerson(result.data.findPerson)
       const update = (store, response) => {
-        const dataInStore = store.readQuery({ query: ALL_BOOKS })
+        const dataInStore = store.readQuery({ query: ALL_PERSONS })
         store.writeQuery({
-          query: ALL_BOOKS,
+          query: ALL_PERSONS,
           data: {
             ...dataInStore,
-            allBooks: [...dataInStore.allBooks, response.data.addBook],
+            allPersons: [...dataInStore.allPersons, response.data.addPerson],
           },
         })
       }
