@@ -1,8 +1,16 @@
 require('dotenv').config()
-const { ApolloServer, UserInputError, gql } = require('apollo-server')
+const {
+  ApolloServer,
+  UserInputError,
+  gql,
+  PubSub,
+  AuthenticationError,
+} = require('apollo-server')
 const mongoose = require('mongoose')
 const Person = require('./models/person')
 const User = require('./models/user')
+
+const pubsub = new PubSub()
 
 mongoose.set('useFindAndModify', false)
 const MONGODB_URI = process.env.MONGODB_URI
@@ -33,26 +41,34 @@ const typeDefs = gql`
     value: String!
   }
 
+  type Subscription {
+    personAdded: Person!
+  }
+
   type Person {
     name: String!
     phone: String
     address: Address!
     id: ID!
   }
+
   type Address {
     street: String!
     city: String!
   }
+
   enum YesNo {
     YES
     NO
   }
+
   type Query {
     personCount: Int!
     allPersons(phone: YesNo): [Person!]!
     findPerson(name: String!): Person
     me: User
   }
+
   type Mutation {
     addPerson(
       name: String!
@@ -109,6 +125,8 @@ const resolvers = {
         })
       }
 
+      pubsub.publish('PERSON_ADDED', { personAdded: person })
+
       return person
     },
     editNumber: async (root, args) => {
@@ -137,7 +155,7 @@ const resolvers = {
     login: async (root, args) => {
       const user = await User.findOne({ username: args.username })
 
-      if (!user || args.password !== 'secred') {
+      if (!user || args.password !== 'secret') {
         throw new UserInputError('wrong credentials')
       }
 
@@ -166,6 +184,11 @@ const resolvers = {
       return currentUser
     },
   },
+  Subscription: {
+    personAdded: {
+      subscribe: () => pubsub.asyncIterator(['PERSON_ADDED']),
+    },
+  },
 }
 const server = new ApolloServer({
   typeDefs,
@@ -182,6 +205,7 @@ const server = new ApolloServer({
   },
 })
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Server ready at ${url}`)
+  console.log(`Subscriptions ready at ${subscriptionsUrl}`)
 })
