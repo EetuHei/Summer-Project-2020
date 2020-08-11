@@ -1,15 +1,48 @@
-import React, { useState } from 'react'
-import { useQuery } from '@apollo/client'
+import React, { useState, useEffect } from 'react'
+import { useQuery, useApolloClient, useSubscription } from '@apollo/client'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-import { ALL_PERSONS } from './services/queries'
 import PhoneForm from './components/PhoneForm'
+import LoginForm from './components/LoginForm'
+import { ALL_PERSONS, PERSON_ADDED } from './services/queries'
 
 const App = () => {
+  const [token, setToken] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const result = useQuery(ALL_PERSONS, {
-    pollInterval: 2000,
+  const result = useQuery(ALL_PERSONS)
+  const client = useApolloClient()
+
+  const updateCacheWith = (addedPerson) => {
+    const includedIn = (set, object) => set.map((p) => p.id).includes(object.id)
+
+    const dataInStore = client.readQuery({ query: ALL_PERSONS })
+    if (!includedIn(dataInStore.allPersons, addedPerson)) {
+      client.writeQuery({
+        query: ALL_PERSONS,
+        data: { allPersons: dataInStore.allPersons.concat(addedPerson) },
+      })
+    }
+  }
+
+  useSubscription(PERSON_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.log(subscriptionData)
+      const addedPerson = subscriptionData.data.personAdded
+      notify(`${addedPerson.name} added`)
+      updateCacheWith(addedPerson)
+    },
   })
+
+  useEffect(() => {
+    const token = localStorage.getItem('phonenumbers-user-token')
+    if (token) {
+      setToken(token)
+    }
+  }, [])
+
+  if (result.loading) {
+    return <div>loading...</div>
+  }
 
   const notify = (message) => {
     setErrorMessage(message)
@@ -18,8 +51,10 @@ const App = () => {
     }, 10000)
   }
 
-  if (result.loading) {
-    return <div>loading...</div>
+  const logout = () => {
+    setToken(null)
+    localStorage.clear()
+    client.resetStore()
   }
 
   const Notify = ({ errorMessage }) => {
@@ -29,12 +64,23 @@ const App = () => {
     return <div style={{ color: 'red' }}>{errorMessage}</div>
   }
 
+  if (!token) {
+    return (
+      <div>
+        <Notify errorMessage={errorMessage} />
+        <h2>Login</h2>
+        <LoginForm setToken={setToken} setError={notify} />
+      </div>
+    )
+  }
+
   return (
     <div>
+      <button onClick={logout}>logout</button>
       <Notify errorMessage={errorMessage} />
       <Persons persons={result.data.allPersons} />
-      <PersonForm setError={notify} />
-      <PhoneForm setError={notify} />
+      <PersonForm setError={notify} updateCacheWith={updateCacheWith} />
+      <PhoneForm notify={notify} />
     </div>
   )
 }
