@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react'
+import { useLazyQuery } from '@apollo/client'
 import GenreFilter from './GenreFilter'
+import { GET_BOOKS_BY_GENRE } from '../service/queries'
 
 const Books = (props) => {
   const [books, setBooks] = useState(props.books)
   const [genre, setGenre] = useState('')
+
+  const [getBooks, result] = useLazyQuery(GET_BOOKS_BY_GENRE)
+
+  useEffect(() => {
+    if (!result.loading && result.data) {
+      setBooks(result.data.allBooks)
+    }
+  }, [result])
 
   useEffect(() => {
     const genresArr = books.reduce((acc, book) => {
@@ -21,7 +31,8 @@ const Books = (props) => {
   }, [books])
 
   const filterByGenre = (genre) => {
-    setBooks(books.filter((book) => book.genres.includes(genre)))
+    // setBooks(books.filter((book) => book.genres.includes(genre)))
+    getBooks({ variables: { genre: genre } })
   }
 
   const clearGenreFilter = () => {
