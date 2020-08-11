@@ -49,6 +49,7 @@ const typeDefs = gql`
     name: String!
     phone: String
     address: Address!
+    friendOf: [User!]!
     id: ID!
   }
 
@@ -88,10 +89,12 @@ const resolvers = {
     personCount: () => Person.collection.countDocuments(),
     allPersons: (root, args) => {
       if (!args.phone) {
-        return Person.find({})
+        return Person.find({}).populate('friendOf')
       }
 
-      return Person.find({ phone: { $exists: args.phone === 'YES' } })
+      return Person.find({ phone: { $exists: args.phone === 'YES' } }).populate(
+        'friendOf'
+      )
     },
     findPerson: (root, args) => Person.findOne({ name: args.name }),
     me: (root, args, context) => {
@@ -105,7 +108,12 @@ const resolvers = {
         city: root.city,
       }
     },
+    friendOf: async (root) => {
+      const friends = await User.find({ friends: { $in: [root._id] } })
+      return friends
+    },
   },
+
   Mutation: {
     addPerson: async (root, args, context) => {
       const person = new Person({ ...args })
