@@ -19,7 +19,7 @@ const NewBook = (props) => {
         query: ALL_BOOKS,
         data: {
           ...dataInStore,
-          allPersons: [...dataInStore.allPersons, response.data.addPerson],
+          allBooks: [...dataInStore.allBooks, response.data.addBook],
         },
       })
     },
