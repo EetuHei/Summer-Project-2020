@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import GenreFilter from './GenreFilter'
 import { GET_BOOKS_BY_GENRE } from '../service/queries'
 
 const Books = (props) => {
-  const [books, setBooks] = useState(props.books)
+  const [books, setBooks] = useState([])
   const [genre, setGenre] = useState('')
-
   const [getBooks, result] = useLazyQuery(GET_BOOKS_BY_GENRE)
+
+  useEffect(() => {
+    setBooks([...props.books])
+  }, [props.books])
 
   useEffect(() => {
     if (!result.loading && result.data) {
