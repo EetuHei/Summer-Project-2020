@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery, useApolloClient } from '@apollo/client'
+import {
+  useQuery,
+  useMutation,
+  useSubscription,
+  useApolloClient,
+} from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import { ALL_BOOKS, GET_USER } from './service/queries'
+import { ALL_BOOKS, GET_USER, BOOK_ADDED } from './service/queries'
 import RecommendedBooks from './components/RecommendedBooks'
 
 const Notify = ({ errorMessage }) => {
   if (!errorMessage) {
     return null
   }
-
   return <div style={{ color: 'red' }}>{errorMessage}</div>
 }
 
@@ -25,6 +29,27 @@ const App = () => {
   const userData = useQuery(GET_USER)
   const result = useQuery(ALL_BOOKS, {
     pollInterval: 2000,
+  })
+
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) => set.map((p) => p.id).includes(object.id)
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks: dataInStore.allBooks.concat(addedBook) },
+      })
+    }
+  }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.log(subscriptionData)
+      const addedBook = subscriptionData.data.bookAdded
+      notify(`Book with title: ${addedBook.title} was added`)
+      updateCacheWith(addedBook)
+    },
   })
 
   useEffect(() => {
