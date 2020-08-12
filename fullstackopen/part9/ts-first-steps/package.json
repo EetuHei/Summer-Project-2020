@@ -1,0 +1,24 @@
+{
+  "name": "ts-first-steps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ts": "ts-node -- index.ts",
+    "multiply": "ts-node multiplier.ts",
+    "calculate": "ts-node calculator.ts",
+    "watch": "nodemon -e ts -w  ./ -x npm run watch:server",
+    "watch:server": "ts-node -- index.ts"
+  },
+  "author": "EetuHei",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  }
+}
