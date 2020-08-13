@@ -1,6 +1,6 @@
 import express from 'express'
 const app = express()
-const { bmiCalculator } = require('./exercises/bmiCalculator')
+import { bmiCalculator } from './exercises/bmiCalculator'
 
 app.get('/ping', (_req, res) => {
   res.send('pong')
@@ -11,8 +11,8 @@ app.get('/hello', (_req, res) => {
 })
 
 app.get('/bmi?', (req, res) => {
-  const height = req.query.height
-  const weight = req.query.weight
+  const height = Number(req.query.height)
+  const weight = Number(req.query.weight)
   const result = bmiCalculator(weight, height)
   res.json(result)
 })
