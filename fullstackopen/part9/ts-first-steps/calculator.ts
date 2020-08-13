@@ -18,5 +18,6 @@ const calculator = (a: number, b: number, op: Operation): Result => {
 try {
   console.log(calculator(2, 10, 'divide'))
 } catch (e) {
-  console.log('Something went wrong, error message: ', e.message)
+  const result = (e as Error).message
+  console.log('Something went wrong, error message: ', result)
 }

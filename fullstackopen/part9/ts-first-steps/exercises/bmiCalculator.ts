@@ -25,7 +25,7 @@ const parseArgs = (args: Array<string>): BmiValues => {
 }
 
 export const bmiCalculator = (a: number, b: number) => {
-  let bmiResult = a / Math.pow(b / 100, 2)
+  const bmiResult = a / Math.pow(b / 100, 2)
   let result = {}
   if (bmiResult < 18.5) {
     console.log(bmiResult, ` wich is ${options.underWeight}`)
@@ -73,5 +73,6 @@ try {
   const { value1, value2 } = parseArgs(process.argv)
   bmiCalculator(value1, value2)
 } catch (e) {
-  console.log('Error, something bad happened, message: ', e.message)
+  const result = (e as Error).message
+  console.log('Error, something bad happened, message: ', result)
 }

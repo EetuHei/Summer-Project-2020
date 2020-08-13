@@ -69,5 +69,6 @@ try {
   const { target, exerciseHours } = parser(process.argv)
   console.log(exerciseCalc(exerciseHours, target))
 } catch (e) {
-  console.log('Error, something bad happened, message: ', e.message)
+  const result = (e as Error).message
+  console.log('Error, something bad happened, message: ', result)
 }
