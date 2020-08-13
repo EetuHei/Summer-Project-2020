@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts": "ts-node -- index.ts",
+    "bmi": "ts-node ./exercises/bmiCalculator.ts",
+    "calculateExercises": "ts-node ./exercises/exerciseCalculator.ts",
     "multiply": "ts-node multiplier.ts",
     "calculate": "ts-node calculator.ts",
     "watch": "nodemon -e ts -w  ./ -x npm run watch:server",
