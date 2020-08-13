@@ -24,22 +24,54 @@ const parseArgs = (args: Array<string>): BmiValues => {
   }
 }
 
-const bmiCalculator = (a: number, b: number, printText: string) => {
+export const bmiCalculator = (a: number, b: number) => {
   let bmiResult = a / Math.pow(b / 100, 2)
-
-  if (bmiResult < 18.5)
-    return console.log(printText, bmiResult, ` wich is ${options.underWeight}`)
-  if (bmiResult > 18.5 && bmiResult < 24.9)
-    return console.log(printText, bmiResult, ` wich is ${options.normal}`)
-  if (bmiResult > 25 && bmiResult < 29.9)
-    return console.log(printText, bmiResult, ` wich is ${options.overWeight}`)
-  if (bmiResult > 30)
-    return console.log(printText, bmiResult, ` wich is ${options.obesity}`)
+  let result = {}
+  if (bmiResult < 18.5) {
+    console.log(bmiResult, ` wich is ${options.underWeight}`)
+    result = {
+      height: b,
+      weight: a,
+      bmiResult,
+      option: ` wich is ${options.underWeight}`,
+    }
+    return result
+  }
+  if (bmiResult > 18.5 && bmiResult < 24.9) {
+    console.log(bmiResult, ` wich is ${options.normal}`)
+    result = {
+      height: b,
+      weight: a,
+      bmiResult: bmiResult,
+      option: ` wich is ${options.normal}`,
+    }
+    return result
+  }
+  if (bmiResult > 25 && bmiResult < 29.9) {
+    console.log(bmiResult, ` wich is ${options.overWeight}`)
+    result = {
+      height: b,
+      weight: a,
+      bmiResult: bmiResult,
+      option: ` wich is ${options.overWeight}`,
+    }
+    return result
+  }
+  if (bmiResult > 30) {
+    console.log(bmiResult, ` wich is ${options.obesity}`)
+    result = {
+      height: b,
+      weight: a,
+      bmiResult: bmiResult,
+      option: ` wich is ${options.obesity}`,
+    }
+    return result
+  }
 }
 
 try {
   const { value1, value2 } = parseArgs(process.argv)
-  bmiCalculator(value1, value2, `Your BMI is: `)
+  bmiCalculator(value1, value2)
 } catch (e) {
   console.log('Error, something bad happened, message: ', e.message)
 }
