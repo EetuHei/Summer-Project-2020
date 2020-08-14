@@ -30,38 +30,47 @@ const parser = (args: Array<string>): parseExerciseArgs => {
   }
 }
 
-const exerciseCalc = (
+export const exerciseCalc = (
   exerciseHours: number[],
   target: number
 ): ExerciseResult => {
-  const periodLength = exerciseHours.length
-  const trainingDays = exerciseHours.filter((hour) => hour > 0).length
-  const average =
-    exerciseHours.reduce((a, b) => a + b, 0) / exerciseHours.length
-  const success = average >= target
-  let rating
-  let ratingDesc
-  const percentRating = (average / target) * 100
+  const validateExerciseHours = exerciseHours
+    .map((hours) => Number(hours))
+    .some(isNaN)
 
-  if (percentRating > 100) {
-    rating = 3
-    ratingDesc = 'Well done, you exerciced more than you planned!'
-  } else if (percentRating >= 60 && percentRating < 100) {
-    rating = 2
-    ratingDesc = 'Not too bad but could be better'
+  if (!isNaN(target) && !validateExerciseHours) {
+    const periodLength = exerciseHours.length
+    const trainingDays = exerciseHours.filter((hour) => hour > 0).length
+    const average =
+      exerciseHours.reduce((a, b) => a + b, 0) / exerciseHours.length
+    const success = average >= target
+    let rating
+    let ratingDesc
+    const percentRating = (average / target) * 100
+
+    if (percentRating > 100) {
+      rating = 3
+      ratingDesc = 'Well done, you exerciced more than you planned!'
+    } else if (percentRating >= 60 && percentRating < 100) {
+      rating = 2
+      ratingDesc = 'Not too bad but could be better'
+    } else {
+      rating = 1
+      ratingDesc =
+        "You didn't reach your target this week, try harder next week!"
+    }
+
+    return {
+      periodLength,
+      trainingDays,
+      success,
+      rating,
+      ratingDesc,
+      target,
+      average,
+    }
   } else {
-    rating = 1
-    ratingDesc = "You didn't reach your target this week, try harder next week!"
-  }
-
-  return {
-    periodLength,
-    trainingDays,
-    success,
-    rating,
-    ratingDesc,
-    target,
-    average,
+    throw new Error('Provided values were not numbers!')
   }
 }
 
