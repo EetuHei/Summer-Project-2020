@@ -11,7 +11,6 @@ const blogReducer = (state = [], action) => {
     case 'LIKE_BLOG':
       const blogId = action.data.id
       const blogToUpdate = state.find((a) => a.id === blogId)
-      console.log(blogToUpdate, 'finding the right blog to update')
       const updateBlog = {
         ...blogToUpdate,
         likes: blogToUpdate.likes + 1,

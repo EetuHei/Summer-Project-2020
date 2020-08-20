@@ -21,7 +21,7 @@ const Alert = (props) => {
           a new blog: {props.message.message.title} by {props.message.message.author}
         </h3>
       ) : (
-        <h3 style={alertStyle}>{props.message.message}</h3>
+        <h3 style={alertStyle}>{props.message.message.message}</h3>
       )}
     </>
   )

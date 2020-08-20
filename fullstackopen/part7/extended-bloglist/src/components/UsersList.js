@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { Jumbotron } from 'react-bootstrap'
 
 const UsersList = (props) => {
-  console.log('props in users: ', props)
 
   return (
     <div>

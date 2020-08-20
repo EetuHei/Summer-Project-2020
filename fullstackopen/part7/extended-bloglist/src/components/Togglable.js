@@ -6,8 +6,6 @@ import { connect } from 'react-redux'
 const Togglable = (props) => {
   const [visible, setVisible] = useState(false)
 
-  console.log('props in togglable: ', props)
-
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
 
