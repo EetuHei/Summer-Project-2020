@@ -1,6 +1,6 @@
-import React from 'react';
-import { Modal, Segment } from 'semantic-ui-react';
-import AddPatientForm, { PatientFormValues } from './AddPatientForm';
+import React from 'react'
+import { Modal, Segment } from 'semantic-ui-react'
+import AddPatientForm, { PatientFormValues } from './AddPatientForm'
 
 interface Props {
   modalOpen: boolean;
@@ -17,6 +17,6 @@ const AddPatientModal = ({ modalOpen, onClose, onSubmit, error }: Props) => (
       <AddPatientForm onSubmit={onSubmit} onCancel={onClose} />
     </Modal.Content>
   </Modal>
-);
+)
 
-export default AddPatientModal;
+export default AddPatientModal

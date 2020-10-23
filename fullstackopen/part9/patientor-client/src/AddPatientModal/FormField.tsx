@@ -1,20 +1,20 @@
-import React from "react";
-import { ErrorMessage, Field, FieldProps, FormikProps } from "formik";
-import { Dropdown, DropdownProps, Form } from "semantic-ui-react";
-import { Diagnosis, Gender } from "../types";
+import React from "react"
+import { ErrorMessage, Field, FieldProps, FormikProps } from "formik"
+import { Dropdown, DropdownProps, Form } from "semantic-ui-react"
+import { Diagnosis, Gender } from "../types"
 
 // structure of a single option
 export type GenderOption = {
   value: Gender;
   label: string;
-};
+}
 
 // props for select field component
 type SelectFieldProps = {
   name: string;
   label: string;
   options: GenderOption[];
-};
+}
 
 export const SelectField: React.FC<SelectFieldProps> = ({
   name,
@@ -31,7 +31,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
       ))}
     </Field>
   </Form.Field>
-);
+)
 
 interface TextProps extends FieldProps {
   label: string;
@@ -50,7 +50,7 @@ export const TextField: React.FC<TextProps> = ({
       <ErrorMessage name={field.name} />
     </div>
   </Form.Field>
-);
+)
 
 /*
   for exercises 9.24.-
@@ -71,7 +71,7 @@ export const NumberField: React.FC<NumberProps> = ({ field, label, min, max }) =
       <ErrorMessage name={field.name} />
     </div>
   </Form.Field>
-);
+)
 
 export const DiagnosisSelection = ({
   diagnoses,
@@ -82,20 +82,20 @@ export const DiagnosisSelection = ({
   setFieldValue: FormikProps<{ diagnosisCodes: string[] }>["setFieldValue"];
   setFieldTouched: FormikProps<{ diagnosisCodes: string[] }>["setFieldTouched"];
 }) => {
-  const field = "diagnosisCodes";
+  const field = "diagnosisCodes"
   const onChange = (
     _event: React.SyntheticEvent<HTMLElement, Event>,
     data: DropdownProps
   ) => {
-    setFieldTouched(field, true);
-    setFieldValue(field, data.value);
-  };
+    setFieldTouched(field, true)
+    setFieldValue(field, data.value)
+  }
 
   const stateOptions = diagnoses.map(diagnosis => ({
     key: diagnosis.code,
     text: `${diagnosis.name} (${diagnosis.code})`,
     value: diagnosis.code
-  }));
+  }))
 
   return (
     <Form.Field>
@@ -110,5 +110,5 @@ export const DiagnosisSelection = ({
       />
       <ErrorMessage name={field} />
     </Form.Field>
-  );
-};
+  )
+}
