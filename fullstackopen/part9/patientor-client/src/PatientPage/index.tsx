@@ -34,11 +34,11 @@ const PatientPage: React.FC = () => {
       {patient ? (
         <div>
           {  Object.values(patient).map((data: Patient) => (
-           <>
+           <div key={data.name}>
           <h1>{data.name} {data.gender === "male" ? <Icon name="mars"/> : data.gender === "female" ? <Icon name="venus"/> : <Icon name="genderless"/>} </h1>
           <p>ssn: {data.ssn}</p>
           <p>occupation: {data.occupation}</p>
-         </>
+         </div>
   ))}
        </div>
        )
