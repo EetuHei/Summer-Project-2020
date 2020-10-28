@@ -4,6 +4,7 @@ import { apiBaseUrl } from '../constants'
 import { useParams } from 'react-router-dom'
 import { useStateValue, setPatientDetails } from '../state'
 import { Patient } from '../types'
+import { Icon } from 'semantic-ui-react'
 
 const PatientPage: React.FC = () => {
   const [{ patient }, dispatch] = useStateValue()
@@ -34,9 +35,9 @@ const PatientPage: React.FC = () => {
         <div>
           {  Object.values(patient).map((data: Patient) => (
            <>
-          <h1>{data.name}</h1>
-          <p>{data.ssn}</p>
-          <p>{data.occupation}</p>
+          <h1>{data.name} {data.gender === "male" ? <Icon name="mars"/> : data.gender === "female" ? <Icon name="venus"/> : <Icon name="genderless"/>} </h1>
+          <p>ssn: {data.ssn}</p>
+          <p>occupation: {data.occupation}</p>
          </>
   ))}
        </div>
